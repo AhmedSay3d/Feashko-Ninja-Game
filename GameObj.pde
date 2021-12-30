@@ -165,6 +165,10 @@ class GameObj {
             image(this.img , this.get_x() , this.get_y(), this.get_width() , this.get_height()) ; 
         }
     } 
+    
+     public PImage get_image(){
+       return this.img;
+    }
 
     public char get_dir()
     {   

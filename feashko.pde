@@ -1,6 +1,6 @@
 // feashko production
 import java.util.*;
-float angle = 0.0, moon_motion;
+float angle = 0.0, moon_motion, saw_angle=0;
 int screen_width = 1000 ; 
 int screen_height = 600 ;
 int half_screen = screen_width/2 ; 
@@ -125,6 +125,9 @@ void setup(){
   spikeg_img = ground_tiles[18];
   movableg_big_img = ground_tiles[19];
   movableg_small_img = ground_tiles[20];
+  
+  shapes.add(new GameObj(0 + 495, y(ground_height + 30), false, saw_img, 50, 50, saw));
+  
   
   scene_1(0);
   //scene3(0);
@@ -267,8 +270,12 @@ void scene_3(int offset){
 
 void draw(){
     draw_background();
+    draw_saw();
     for(GameObj s: shapes){
-       s.draw(); 
+      if(s.get_type() == saw){ 
+        continue;
+      }
+        s.draw(); 
     }
     for(GameObj g: grounds){
        g.draw();
@@ -294,6 +301,17 @@ void draw_background(){
   imageMode(CORNER);
 }
 
+void draw_saw(){
+    imageMode(CENTER);
+    pushMatrix();
+    translate(520, y(50));
+    rotate(saw_angle);
+    image(saw_img, 0, 0, 50, 50);
+    popMatrix();
+    imageMode(CORNER);
+    saw_angle += 0.1;
+
+}
 void draw_fire_ball()
 {
     for(FireBall ball : fireBalls){
