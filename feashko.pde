@@ -131,14 +131,56 @@ void setup(){
   
   
   
-  scene_0(0);
-  //scene3(0);
+  //scene_0(0);
+  //scene_1(0);
+  //scene_2(0);
+  //scene_3(0);
+  scene_4(0);
+  //scene_5(0);
   //ground tiles 
     
 
   
 }
 
+
+void draw(){
+    draw_background();
+    draw_saw(0);
+    draw_saw(4);
+    for(GameObj s: shapes){
+      if(s.get_type() == saw){ 
+        continue;
+      }
+        s.draw(); 
+    }
+    for(GameObj g: grounds){
+       g.draw();
+      
+    }
+    
+    draw_fire_ball() ; 
+    draw_evil() ;
+    move_hero( ) ;
+    ninjaHero.draw(shapes , evils , grounds) ;
+
+} 
+ 
+
+void draw_background(){
+  background(background_g);
+  pushMatrix();
+  translate(100, 100);
+  imageMode(CENTER);
+  rotate(angle);
+  image(moon, 0, 0);
+  angle += 0.02;
+  popMatrix();
+  imageMode(CORNER);
+}
+
+
+// scenes:
 void scene_0(int offset){
     int initial = 0+offset;
     for(int i=0; i<20;i++){
@@ -175,8 +217,8 @@ void scene_0(int offset){
           shapes.add(new GameObj(initial + 800 + (i * 30), y(ground_height + 30 + (j * 30)), false, fixed_box_img, box_height, box_width));   
         }  
   }
-    
 }
+
 
 void scene_1(int offset){
   int initial = 0+offset;
@@ -202,11 +244,9 @@ void scene_1(int offset){
   
     shapes.add(new GameObj(initial + 415, y(ground_height + 30), false, fixed_box_img, box_height, box_width));
     shapes.add(new GameObj(initial + 600, y(ground_height + 30), false, fixed_box_img, box_height, box_width));
-    
-    
-
-      
+    shapes.add(new GameObj(initial + 495, y(ground_height + 25), false, saw_img, 50, 50, saw));
 }
+
 
 void scene_2(int offset){
   
@@ -245,33 +285,6 @@ void scene_2(int offset){
 }
 
 
-void scene_4(int offset){
-  int initial = 0+offset;
-  for(int i=0; i < 5;i++)
-      grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
-  for(int i=5; i < 8;i++)
-      grounds.add(new GameObj(initial+(50*i), y(ground_height-20), false, waterg_img,100,50, waterg));
-  for(int i=8; i < 15;i++)
-      grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
-  for(int i=15; i < 20;i++)
-      grounds.add(new GameObj(initial+(50*i), y(ground_height-20), false, waterg_img,100,50, waterg));
-  for(int i=15; i < 18; i++)
-    grounds.add(new GameObj(initial+(50*i), y(ground_height+150), false, normalg_img,floatg_height, floatg_width));
-  for(int i=5; i < 12;i++)
-    grounds.add(new GameObj(initial+(50*i), y(ground_height+250), false, normalg_img,floatg_height, floatg_width));
-  for(int i=0; i < 3;i++)
-      grounds.add(new GameObj(initial+(50*i), y(ground_height+200), false, normalg_img,floatg_height, floatg_width));
-  grounds.add(new GameObj(initial+(50*5-25), y(ground_height+125), false, normalg_img,50,60));
-  
-  
-  
-  evils[1] = new Evil(initial + 500, y(ground_height +70), hazard_img, 100, 50, screen_height, 1, hazard);
-  shapes.add(new GameObj(initial+(40* 0), y(ground_height+300), false, special_box_img, box_height, box_width, "TODO INSERT TYPE NAME"));
-  shapes.add(new GameObj(initial+(40* 1), y(ground_height+300), false, special_box_img, box_height, box_width, "TODO INSERT TYPE NAME"));
-  shapes.add(new GameObj(initial+(40* 2), y(ground_height+300), false, special_box_img, box_height, box_width, "TODO INSERT TYPE NAME"));
-      
-}
-
 void scene_3(int offset){
   int initial = 0+offset;
   for(int i=0; i<20; i++){
@@ -299,6 +312,35 @@ void scene_3(int offset){
   shapes.add(new GameObj(initial+(50*19), y(ground_height+30), false, special_box_img, box_height, box_width, "TODO INSERT TYPE NAME"));
 }
 
+
+void scene_4(int offset){
+  int initial = 0+offset;
+  for(int i=0; i < 5;i++)
+      grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
+  for(int i=5; i < 8;i++)
+      grounds.add(new GameObj(initial+(50*i), y(ground_height-20), false, waterg_img,100,50, waterg));
+  for(int i=8; i < 15;i++)
+      grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
+  for(int i=15; i < 20;i++)
+      grounds.add(new GameObj(initial+(50*i), y(ground_height-20), false, waterg_img,100,50, waterg));
+  for(int i=15; i < 18; i++)
+    grounds.add(new GameObj(initial+(50*i), y(ground_height+150), false, normalg_img,floatg_height, floatg_width));
+  for(int i=5; i < 12;i++)
+    grounds.add(new GameObj(initial+(50*i), y(ground_height+250), false, normalg_img,floatg_height, floatg_width));
+  for(int i=0; i < 3;i++)
+      grounds.add(new GameObj(initial+(50*i), y(ground_height+200), false, normalg_img,floatg_height, floatg_width));
+  grounds.add(new GameObj(initial+(50*5-25), y(ground_height+125), false, normalg_img,50,60));
+  
+  
+  
+  //evils[1] = new Evil(initial + 500, y(ground_height +70), hazard_img, 100, 50, screen_height, 1, hazard);
+  shapes.add(new GameObj(initial+(40* 0), y(ground_height+300), false, special_box_img, box_height, box_width, "TODO INSERT TYPE NAME"));
+  shapes.add(new GameObj(initial+(40* 1), y(ground_height+300), false, special_box_img, box_height, box_width, "TODO INSERT TYPE NAME"));
+  shapes.add(new GameObj(initial+(40* 2), y(ground_height+300), false, special_box_img, box_height, box_width, "TODO INSERT TYPE NAME"));
+      
+}
+
+
 void scene_5(int offset){
   int initial = 0+offset;
   for(int i=0; i<20; i++){
@@ -323,49 +365,21 @@ void scene_5(int offset){
   shapes.add(new GameObj(initial+(50*9), y(ground_height + 80), false, robot_img,85,65, "to be randomized"));
   
 }
-void draw(){
-    draw_background();
+//end of scenes.
+
+void draw_saw(int offset){
+    int initial = offset * 1000;
+    if(offset == 1){
+      imageMode(CENTER);
+      pushMatrix();
+      translate(initial + 520, y(50));
+      rotate(saw_angle);
+      image(saw_img, 0, 0, 50, 50);
+      popMatrix();
+      imageMode(CORNER);
+      saw_angle += 0.1;
+    }
     
-    for(GameObj s: shapes){
-      if(s.get_type() == saw){ 
-        draw_saw();
-        continue;
-      }
-        s.draw(); 
-    }
-    for(GameObj g: grounds){
-       g.draw();
-      
-    }
-    draw_fire_ball() ; 
-    draw_evil() ;
-    move_hero( ) ;
-    ninjaHero.draw(shapes , evils , grounds) ;
-
-} 
-
-
-void draw_background(){
-  background(background_g);
-  pushMatrix();
-  translate(100, 100);
-  imageMode(CENTER);
-  rotate(angle);
-  image(moon, 0, 0);
-  angle += 0.02;
-  popMatrix();
-  imageMode(CORNER);
-}
-
-void draw_saw(){
-    imageMode(CENTER);
-    pushMatrix();
-    translate(520, y(50));
-    rotate(saw_angle);
-    image(saw_img, 0, 0, 50, 50);
-    popMatrix();
-    imageMode(CORNER);
-    saw_angle += 0.1;
 
 }
 void draw_fire_ball()
