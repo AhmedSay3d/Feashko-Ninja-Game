@@ -19,8 +19,24 @@ class Evil extends GameObj
         this.sh= _sh  ;
     }
 
+    //private boolean is_touch_ground(List<GameObj> objects_arr  )
+    //{
+    //    if(this.is_intersect(objects_arr ) == 1 )
+    //        return true ;
 
-    public void update (GameObj[] objects_arr)
+    //    for(Ground gnd : Ground.grounds){
+    //        if(gnd != null){
+    //            if(this.get_x() > gnd.from  && this.get_x() < gnd.to){
+    //                if( abs (this.get_y() - (this.screen_height-(Ground.height+this.get_height()) )) <= this.drop_rate ){
+    //                    return true ;
+    //                }
+    //            }
+    //        }
+    //    }
+    //    return false ; 
+    //}
+
+    public void update (List<GameObj> objects_arr)
     {
         int temp = this.is_intersect(objects_arr) ;
         if( temp == 3 )

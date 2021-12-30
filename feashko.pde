@@ -1,12 +1,10 @@
 // feashko production
 import java.util.*;
-float angle = 0.0, sun_motion = 0.0;
+float angle = 0.0, moon_motion;
 int screen_width = 1000 ; 
 int screen_height = 600 ;
 int half_screen = screen_width/2 ; 
 int ground_height = 100;
-int background_counter = 1;
-boolean background_f = true;
 int change_backgrond_sec = 30 ; // in 
 int time_between_knife = 200 ; 
 
@@ -40,11 +38,12 @@ final String movableg = "movableg";
 // fire ball 
 List<FireBall> fireBalls =new ArrayList<FireBall>();  
 
-GameObj[] shapes = new GameObj[10] ; 
+List<GameObj> shapes = new ArrayList<GameObj>();
+List<GameObj> grounds = new ArrayList<GameObj>();
 Hero ninjaHero ;  
 Evil[] evils = new Evil[10] ;
 
-PImage fireBallImg ;
+PImage fireBallImg, moon, background_g ;   
 
 PImage[] ninjAttk = new PImage[numFrames] ;
 PImage[] ninjClimp = new PImage[numFrames] ;
@@ -68,6 +67,12 @@ PImage[] zombieWalk = new PImage[11] ;
 
 PImage[][] zombieImages =   new PImage[4][numFrames] ;
 
+PImage[] ground_tiles = new PImage[21];
+PImage robot_img ,ninja_img, zombie_img, coin_img,
+        special_box_img, coin_box_img, hazard_img,
+        saw_img, normalg_img, cliffg_r_img,
+        cliffg_l_img, waterg_img, spikeg_img,
+        movableg_big_img, movableg_small_img;
 
 
 
@@ -91,39 +96,67 @@ void setup(){
     //(int _x , int _y , PImage[][] img , int _h , int _w , int _sh , int _step )
     evils[0] = new Evil( 500 , 500 ,zombieImages , -1 , -1 ,screen_height  , 4 ) ;
   
-
-
-  // change this 
-  PImage[] ground_tiles = new PImage[21];
-
-//   PImage robot_img = loadImage("robot/Idle__000.png");
-//   PImage ninja_img = loadImage("ninja/Idle__000.png");
-//   PImage zombie_img = loadImage("zombie/Idle__000.png");
-//   PImage coin_img = loadImage("coin.png");
-//   PImage special_box_img = loadImage("box_light.png");
-//   PImage coin_box_img = loadImage("IceBox.png");
-//   PImage waterg_img = ground_tiles[17];
-//   PImage spikeg_img = ground_tiles[18];
-//   PImage movableg_big_img = ground_tiles[19];
-//   PImage movableg_small_img = ground_tiles[20];
+  //background
+  background_g = loadImage("data/bg/BG/BG.png");
+  moon = loadImage("moon.png");
+  background_g.resize(1000, 600);
+  moon.resize(100, 100);   
   
+  for(int i=1; i<21; i++) {
+        String s = String.format("data/bg/Tiles/%d.png", i);
+        ground_tiles[i] = loadImage(s);
+        
+    }
+  robot_img = loadImage("robot/Idle__000.png");
+  ninja_img = loadImage("ninja/Idle__000.png");
+  zombie_img = loadImage("zombie/Idle__000.png");
+  coin_img = loadImage("coin.png");
+  special_box_img = loadImage("box_light.png");
+  coin_box_img = loadImage("IceBox.png");
+  hazard_img = loadImage("Barrel.png");
+  saw_img = loadImage("Saw.png");
+  normalg_img = ground_tiles[2];
+  cliffg_r_img = ground_tiles[3];
+  cliffg_l_img = ground_tiles[1];
+  waterg_img = ground_tiles[17];
+  spikeg_img = ground_tiles[18];
+  movableg_big_img = ground_tiles[19];
+  movableg_small_img = ground_tiles[20];
+  
+  
+
   //ground tiles 
-    // for(int i=1; i<21; i++) {
-    //     String s = String.format("data/bg/Tiles/%d.png", i);
-    //     ground_tiles[i] = loadImage(s);
-    // }
+    
 
   
 }
 
+
+
 void draw(){
-    background(0, 0, 0);
+    draw_background();
     draw_fire_ball() ;
     move_hero() ; 
-
-    ninjaHero.draw( shapes , evils) ;
+    
+    ninjaHero.draw(shapes , evils) ;
+    
+    for(GameObj g: grounds){
+      
+      
+    }
 } 
 
+void draw_background(){
+  background(background_g);
+  pushMatrix();
+  translate(100, 100);
+  imageMode(CENTER);
+  rotate(angle);
+  image(moon, 0, 0);
+  angle += 0.02;
+  popMatrix();
+  imageMode(CORNER);
+}
 
 void draw_fire_ball()
 {
