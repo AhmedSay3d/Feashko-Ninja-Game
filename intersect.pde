@@ -35,7 +35,6 @@ static class Intersect{
         
         // obj1 (x,y) arrays for left, right, top, bottom
         
-        PVector PVector = new PVector(5,5);
         
         
         

@@ -12,8 +12,24 @@ int change_backgrond_sec = 30 ;
 //Mode activeMode;
 //Tutorial tutorial;
 
-// values of keyboard keys 
 
+final String robot  = "robot";
+final String ninja  = "ninja";
+final String zombie = "zombie";
+final String coin = "coin";
+final String fireb  = "fireb";
+final String knifeb = "knifeb";
+final String coinb  = "coinb";
+final String waterg  = "waterg";
+final String spikeg  = "spikeg";
+final String movableg = "movableg";
+
+
+
+
+
+
+// values of keyboard keys 
 boolean isShiftPressed = false ,
         isUPPressed = false ,
         isRIGHTPressed = false ,
@@ -25,13 +41,33 @@ void setup(){
   size(1000,600);
   smooth();
   
+  PImage[] ground_tiles = new PImage[21];
+
+  PImage robot_img = loadImage("robot/Idle__000.png");
+  PImage ninja_img = loadImage("ninja/Idle__000.png");
+  PImage zombie_img = loadImage("zombie/Idle__000.png");
+  PImage coin_img = loadImage("coin.png");
+  PImage special_box_img = loadImage("box_light.png");
+  PImage coin_box_img = loadImage("IceBox.png");
+  PImage waterg_img = ground_tiles[17];
+  PImage spikeg_img = ground_tiles[18];
+  PImage movableg_big_img = ground_tiles[19];
+  PImage movableg_small_img = ground_tiles[20];
+  
+  //ground tiles 
+  for(int i=1; i<21; i++) {
+  String s = String.format("data/bg/Tiles/%d.png", i);
+  ground_tiles[i] = loadImage(s);
+}
+
+  
 }
 
 void draw(){
   //drawBackGround();
   //drawShapes();
   
-   background(255);
+   
   
 } 
 
