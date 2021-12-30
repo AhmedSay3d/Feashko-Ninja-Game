@@ -41,6 +41,7 @@ final String movableg = "movableg";
 List<FireBall> fireBalls =new ArrayList<FireBall>();  
 
 List<GameObj> shapes = new ArrayList<GameObj>();
+List<GameObj> grounds = new ArrayList<GameObj>();
 Hero ninjaHero ;  
 Evil[] evils = new Evil[10] ;
 
@@ -60,7 +61,12 @@ PImage[] ninjThrow = new PImage[numFrames] ;
 
 PImage[][] ninjaImages = new PImage[11][numFrames] ;
 
-
+PImage[] ground_tiles = new PImage[21];
+PImage robot_img ,ninja_img, zombie_img, coin_img,
+        special_box_img, coin_box_img, hazard_img,
+        saw_img, normalg_img, cliffg_r_img,
+        cliffg_l_img, waterg_img, spikeg_img,
+        movableg_big_img, movableg_small_img;
 
 
 
@@ -83,24 +89,24 @@ void setup(){
   
 
 
-  // change this 
-  PImage[] ground_tiles = new PImage[21];
+  
+  
 
-  PImage robot_img = loadImage("robot/Idle__000.png");
-  PImage ninja_img = loadImage("ninja/Idle__000.png");
-  PImage zombie_img = loadImage("zombie/Idle__000.png");
-  PImage coin_img = loadImage("coin.png");
-  PImage special_box_img = loadImage("box_light.png");
-  PImage coin_box_img = loadImage("IceBox.png");
-  PImage hazard_img = loadImage("Barrel.png");
-  PImage saw_img = loadImage("Saw.png");
-  PImage normalg_img = ground_tiles[2];
-  PImage cliffg_r_img = ground_tiles[3];
-  PImage cliffg_l_img = ground_tiles[1];
-  PImage waterg_img = ground_tiles[17];
-  PImage spikeg_img = ground_tiles[18];
-  PImage movableg_big_img = ground_tiles[19];
-  PImage movableg_small_img = ground_tiles[20];
+  robot_img = loadImage("robot/Idle__000.png");
+  ninja_img = loadImage("ninja/Idle__000.png");
+  zombie_img = loadImage("zombie/Idle__000.png");
+  coin_img = loadImage("coin.png");
+  special_box_img = loadImage("box_light.png");
+  coin_box_img = loadImage("IceBox.png");
+  hazard_img = loadImage("Barrel.png");
+  saw_img = loadImage("Saw.png");
+  normalg_img = ground_tiles[2];
+  cliffg_r_img = ground_tiles[3];
+  cliffg_l_img = ground_tiles[1];
+  waterg_img = ground_tiles[17];
+  spikeg_img = ground_tiles[18];
+  movableg_big_img = ground_tiles[19];
+  movableg_small_img = ground_tiles[20];
   
   //ground tiles 
     for(int i=1; i<21; i++) {
@@ -109,6 +115,15 @@ void setup(){
     }
 
   
+}
+
+void scene2(int offset){
+  
+    int initial = 1000*2+offset;  
+    grounds.add(new GameObj(initial, y(ground_height), false, cliffg_l_img,100,50));
+    for(int i=1; i<11;i++){
+        grounds.add(new GameObj(initial+(50*i), y(ground_height), false, cliffg_l_img,100,50));
+    }
 }
 
 void draw(){
