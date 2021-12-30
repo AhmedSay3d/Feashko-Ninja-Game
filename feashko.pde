@@ -1,12 +1,10 @@
 // feashko production
 import java.util.*;
-float angle = 0.0, sun_motion = 0.0;
+float angle = 0.0, moon_motion;
 int screen_width = 1000 ; 
 int screen_height = 600 ;
 int half_screen = screen_width/2 ; 
 int ground_height = 100;
-int background_counter = 1;
-boolean background_f = true;
 int change_backgrond_sec = 30 ; // in 
 int time_between_knife = 200 ; 
 
@@ -45,7 +43,7 @@ List<GameObj> grounds = new ArrayList<GameObj>();
 Hero ninjaHero ;  
 Evil[] evils = new Evil[10] ;
 
-PImage fireBallImg ;
+PImage fireBallImg, moon, background_g ;   
 
 PImage[] ninjAttk = new PImage[numFrames] ;
 PImage[] ninjClimp = new PImage[numFrames] ;
@@ -87,9 +85,11 @@ void setup(){
 
   ninjaHero = new Hero(ninjaImages , screen_height , drop_rate , jump_rate , 0 , 500 ) ; 
   
-
-
-  
+  //background
+  background_g = loadImage("data/bg/BG/BG.png");
+  moon = loadImage("moon.png");
+  background_g.resize(1000, 600);
+  moon.resize(100, 100);   
   
   for(int i=1; i<21; i++) {
         String s = String.format("data/bg/Tiles/%d.png", i);
@@ -123,10 +123,11 @@ void setup(){
 
 
 void draw(){
+    draw_background();
     draw_fire_ball() ;
     move_hero() ; 
     
-    ninjaHero.draw( shapes , evils) ;
+    ninjaHero.draw(shapes , evils) ;
     
     for(GameObj g: grounds){
       
@@ -134,6 +135,17 @@ void draw(){
     }
 } 
 
+void draw_background(){
+  background(background_g);
+  pushMatrix();
+  translate(100, 100);
+  imageMode(CENTER);
+  rotate(angle);
+  image(moon, 0, 0);
+  angle += 0.02;
+  popMatrix();
+  imageMode(CORNER);
+}
 
 void draw_fire_ball()
 {
