@@ -68,7 +68,16 @@ PImage[] zombieDead = new PImage[12] ;
 PImage[] zombieIdle = new PImage[15] ;
 PImage[] zombieWalk = new PImage[10] ;
 
-PImage[][] zombieImages =   new PImage[4][numFrames] ;
+PImage[][] zombieImages =   new PImage[4][15] ;
+
+
+PImage[] robotDead = new PImage[11] ; 
+PImage[] robotRun = new PImage[9] ; 
+PImage[] robotIdle = new PImage[11] ; 
+PImage[] robotAttack = new PImage[9] ; 
+
+PImage[][] robotImage = new PImage[4][10] ;  
+
 
 PImage[] ground_tiles = new PImage[21];
 PImage robot_img ,ninja_img, zombie_img, coin_img,
@@ -374,6 +383,33 @@ void initi_photos ()
 
     }
 
+
+
+    for (int i = 0; i < 8; i++) {
+        int t = i+1 ; 
+        String zombieAttStr = "robot/Melee (" + t + ").png"; robotAttack[i]= loadImage(zombieAttStr); 
+        robotAttack[i].resize(parseInt(robotAttack[i].width/img_ratio ),parseInt(robotAttack[i].height/img_ratio ))  ;
+
+    }
+    for (int i = 0; i < 10; i++) {
+        int t = i+1 ; 
+        String zombieDeadStr = "robot/Dead (" + t + ").png";robotDead[i]= loadImage(zombieDeadStr); 
+        robotDead[i].resize(parseInt(robotDead[i].width/img_ratio ),parseInt(robotDead[i].height/img_ratio ))  ;
+
+    }
+    for (int i = 0; i < 10; i++) {
+        int t = i+1 ; 
+        String zombieIdleStr = "robot/Idle (" + t + ").png"; robotIdle[i]= loadImage(zombieIdleStr); 
+        robotIdle[i].resize(parseInt(robotIdle[i].width/img_ratio ),parseInt(robotIdle[i].height/img_ratio ))  ;
+
+    }
+    for (int i = 0; i < 8; i++) {
+        int t = i+1 ; 
+        String zombieWalkStr = "robot/Run (" + t + ").png"; robotRun[i]= loadImage(zombieWalkStr); 
+        robotRun[i].resize(parseInt(robotRun[i].width/img_ratio ),parseInt(robotRun[i].height/img_ratio ))  ;
+
+    }
+
     ninjaImages[0] = ninjAttk;
     ninjaImages[1] = ninjClimp;
     ninjaImages[2] = ninjDead;
@@ -390,6 +426,11 @@ void initi_photos ()
     zombieImages[1] =  zombieDead  ;
     zombieImages[2] =  zombieIdle  ;
     zombieImages[3] =  zombieWalk  ;
+
+    robotImage[0] =  robotAttack  ;
+    robotImage[1] =  robotDead  ;
+    robotImage[2] =  robotIdle  ;
+    robotImage[3] =  robotRun  ;
 
 
     fireBallImg = loadImage("ninja/Kunai.png") ; fireBallImg.resize(20,20) ;

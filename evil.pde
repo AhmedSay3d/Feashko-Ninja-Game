@@ -5,7 +5,8 @@ class Evil extends GameObj
     int sh ; 
     int  currentFrame = 0 ;  
     PImage[][] images ; 
-    int[] numFrames = {8,12,15,10} ;
+    // int[] numFrames = {8,12,15,10} ;
+    int[] numFrames  ;
     boolean is_dead =  false;
     boolean is_attack =  false;
     int attack_status = 0 ;
@@ -14,9 +15,13 @@ class Evil extends GameObj
     
     public Evil(int _x , int _y , PImage[][] img , int _h , int _w , int _sh , int _step , String type)
     {
+
        this(_x, _y, img[3][1], _h, _w, _sh, type); 
        this.images = img ; 
        this.step = _step ;
+       this.numFrames = new int[4] ; 
+       for(int i =0 ; i< img.length ; i++)
+           this.numFrames[i] = img[i].length ; 
     }
      public Evil(int _x , int _y , PImage img , int _h , int _w , int _sh, int _step, String type ){
       
@@ -31,6 +36,7 @@ class Evil extends GameObj
     }
     public Evil(int _x , int _y , PImage img , int _h , int _w , int _sh, String type)
     {
+
         super(_x , _y , true , img , _h , _w, type);
         this.set_dir('L') ;
         this.sh= _sh  ;
