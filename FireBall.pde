@@ -10,7 +10,7 @@ class FireBall extends GameObj
 
     int h = 20 ; 
     int w = 20 ; 
-    int step = 5 ; 
+    int step = 10 ; 
 
     // float period = 500.0;  // How many pixels before the wave repeats
     // float dx;  // Value for incrementing X, a function of period and xspacing

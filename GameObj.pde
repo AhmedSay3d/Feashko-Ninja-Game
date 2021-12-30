@@ -111,13 +111,20 @@ class GameObj {
 
     int is_intersect(GameObj obj){
         if(obj != null)
-            return  Intersect.check(this , obj , false) ;
+            return  Intersect.check(this , obj , false , 0) ;
+        else 
+            return -1 ; 
+    }
+
+    int is_intersect(GameObj obj , int gap){
+        if(obj != null)
+            return  Intersect.check(this , obj , false , gap) ;
         else 
             return -1 ; 
     }
     int is_intersect(GameObj obj , boolean debug){
         if(obj != null)
-            return  Intersect.check(this , obj , debug) ;
+            return  Intersect.check(this , obj , debug , 0) ;
         else 
             return -1 ; 
     }
@@ -130,7 +137,7 @@ class GameObj {
             {
                 if(obj != null)
                 {
-                    temp = Intersect.check(this , obj , debug) ;
+                    temp = Intersect.check(this , obj , debug , 0) ;
                     if (temp > 0 )
                     {
                         this.index = obj ; 

@@ -42,7 +42,7 @@ List<FireBall> fireBalls =new ArrayList<FireBall>();
 List<GameObj> shapes = new ArrayList<GameObj>();
 List<GameObj> grounds = new ArrayList<GameObj>();
 Hero ninjaHero ;  
-Evil[] evils = new Evil[10] ;
+List<Evil> evils = new ArrayList<Evil>();
 
 PImage fireBallImg, moon, background_g ;   
 
@@ -61,10 +61,10 @@ PImage[] ninjThrow = new PImage[numFrames] ;
 PImage[][] ninjaImages = new PImage[11][numFrames] ;
 
 // zombie img 
-PImage[] zombieAttack = new PImage[9] ;
-PImage[] zombieDead = new PImage[13] ;
-PImage[] zombieIdle = new PImage[16] ;
-PImage[] zombieWalk = new PImage[11] ;
+PImage[] zombieAttack = new PImage[8] ;
+PImage[] zombieDead = new PImage[12] ;
+PImage[] zombieIdle = new PImage[15] ;
+PImage[] zombieWalk = new PImage[10] ;
 
 PImage[][] zombieImages =   new PImage[4][numFrames] ;
 
@@ -96,7 +96,9 @@ void setup(){
     ninjaHero = new Hero(ninjaImages , screen_height , drop_rate , jump_rate , 0 , y(ground_height + 50 )) ; 
 
     //(int _x , int _y , PImage[][] img , int _h , int _w , int _sh , int _step )
-    evils[0] = new Evil( 500 , y(ground_height + 60 ) ,zombieImages , -1 , -1 ,screen_height  , 1 ) ;
+    // evils[0] = new Evil( 500 , y(ground_height + 60 ) ,zombieImages , -1 , -1 ,screen_height  , 1 ) ;
+    // evils.add( new Evil( initial + 230 , y(ground_height + 60 ) ,zombieImages , -1 , -1 ,screen_height  , 1 )) ;
+
   
   //background
   background_g = loadImage("data/bg/BG/BG.png");
@@ -126,13 +128,16 @@ void setup(){
   movableg_big_img = ground_tiles[19];
   movableg_small_img = ground_tiles[20];
   
-  scene_1(0);
-  //scene3(0);
+  scene_0(0);
+  scene_1(screen_width);
+  scene_2(screen_width*2);
+  scene_3(screen_width*3);
   //ground tiles 
     
 
   
 }
+
 
 void scene_0(int offset){
     int initial = 0+offset;
@@ -142,12 +147,12 @@ void scene_0(int offset){
        else
          grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
     }
-    shapes.add(new GameObj(initial + 200, y(ground_height + 30), false, fixed_box_img, 30, 30));
-    shapes.add(new GameObj(initial + 200, y(ground_height + 30 + 30), false, fixed_box_img, 30, 30)); 
+    // shapes.add(new GameObj(initial + 200, y(ground_height + 30), false, fixed_box_img, 30, 30));
+    // shapes.add(new GameObj(initial + 200, y(ground_height + 30 + 30), false, fixed_box_img, 30, 30)); 
     shapes.add(new GameObj(initial + 370, y(ground_height + 30), false, fixed_box_img, 30, 30));
     shapes.add(new GameObj(initial + 370, y(ground_height + 30 + 30), false, fixed_box_img, 30, 30));    
    
-    shapes.add(new GameObj(initial + 230, y(ground_height + 80), false, zombie_img, 85, 65));  
+    evils.add( new Evil( initial + 300 , y(ground_height + 60 ) ,zombieImages , -1 , -1 ,screen_height  , 1 )) ;
     
     shapes.add(new GameObj(initial + 650, y(ground_height + 30), false, coin_img, 30, 30));
     shapes.add(new GameObj(initial + 650, y(ground_height + 30), false, coin_box_img, 30, 30));
@@ -161,11 +166,11 @@ void scene_0(int offset){
         int d = i;
         if(i >= 3)
             d = 5 - i - 1;
-        println("i = ", i);
-        println("d = ", d);
+        // println("i = ", i);
+        // println("d = ", d);
 
         for(int j = 0; j <= d; ++j){
-          println("j = ", j);
+        //   println("j = ", j);
           shapes.add(new GameObj(initial + 800 + (i * 30), y(ground_height + 30 + (j * 30)), false, fixed_box_img, 30, 30));   
         }  
   }
@@ -265,8 +270,23 @@ void scene_3(int offset){
       
 }
 
+void _translate()
+{
+      if(ninjaHero.get_x() > half_screen )
+    {
+        translate( -ninjaHero.get_x() +(screen_width/2) , 0 );
+        half_screen = ninjaHero.get_x() ; 
+    }
+    else 
+    {
+        translate(-half_screen+(screen_width/2) , 0 ) ;
+    }
+}
+
 void draw(){
+    frameRate(50);
     draw_background();
+    _translate() ;
     for(GameObj s: shapes){
        s.draw(); 
     }
@@ -278,6 +298,7 @@ void draw(){
     draw_evil() ;
     move_hero( ) ;
     ninjaHero.draw(shapes , evils , grounds) ;
+
 
 } 
 
@@ -318,6 +339,15 @@ void draw_evil()
     for(Evil evil : evils)
     {
         if(evil != null){
+
+            for(FireBall ball : fireBalls){
+                if( abs(Intersect.space_from_right(ball , evil   )) < 5 || abs(Intersect.space_from_left(ball , evil   )) < 5   ){
+                    evil.kill() ;    
+                    // fireBalls.remove(ball) ;
+                }
+
+            }
+
             evil.update(shapes) ;
             evil.draw();
         }
@@ -438,7 +468,7 @@ void initi_photos ()
 void move_hero()
 {
     boolean touch_ground = ninjaHero.is_touch_ground(grounds) ; 
-    int obj_intersection =  ninjaHero.is_intersect(shapes)  ; 
+    int obj_intersection =  ninjaHero.is_intersect(shapes , true )  ; 
 
     // jump 
     if (isSpacePressed) {

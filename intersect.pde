@@ -1,6 +1,6 @@
 static class Intersect{
 
-    static int check (GameObj obj1 , GameObj obj2 , boolean  debug)
+    static int check (GameObj obj1 , GameObj obj2 , boolean  debug , int gap )
     {
        int obj1_x = obj1.get_x()  ,
            obj1_y = obj1.get_y() ,
@@ -49,10 +49,10 @@ static class Intersect{
 
             // if (obj1_y + obj1_h - obj2_y  >= 5   && obj1_y + obj1_h - obj2_y  <= 20 )
             //     print("#") ;
-            // // if(obj1_y + obj1_h - obj2_y  <= 50  )
-            //     // print("$") ;
-            // if ((obj1_x >= obj2_x && obj1_x <= obj2_x+obj2_w  ) ||( obj1_x+obj1_w >= obj2_x && obj1_x+obj1_w <= obj2_x+obj2_w  )  )
+            // if(obj1_x == obj1_w  - obj2_x  )
             //     print("$") ;
+            // if  ((obj1_y >= obj2_y && obj1_y <= obj2_y+obj2_h  ) ||( obj1_y+obj1_h >= obj2_y && obj1_y+obj1_h <= obj2_y+obj2_h  )   )
+            //     print("#") ;
 
             //     // println(obj1_y , obj1_h , obj2_y ) ;
             //     println(obj1_x , obj1_w , obj2_x , obj2_w) ;
@@ -60,7 +60,7 @@ static class Intersect{
         }
 
         // right 
-        if ( abs(obj1_x+obj1_w  - obj2_x ) < 7 
+        if ( abs (obj1_x + obj1_w -obj2_x ) < 15 +gap 
             &&(   (obj1_y >= obj2_y && obj1_y <= obj2_y+obj2_h  ) 
                 ||( obj1_y+obj1_h >= obj2_y && obj1_y+obj1_h <= obj2_y+obj2_h  ) 
             )
@@ -77,7 +77,6 @@ static class Intersect{
             return 4 ;  
 
         //down
-        // obj1 hit obj2 from bottom 
         else if( obj1_y + obj1_h - obj2_y  >= 5   && obj1_y + obj1_h - obj2_y  <= 20   
             &&( (obj1_x >= obj2_x && obj1_x <= obj2_x+obj2_w  ) 
                 ||( obj1_x+obj1_w >= obj2_x && obj1_x+obj1_w <= obj2_x+obj2_w  ) 
@@ -102,6 +101,47 @@ static class Intersect{
         
 
 
+    }
+
+    static int space_from_right(GameObj obj1 , GameObj obj2 )
+    {
+        int obj1_x = obj1.get_x()  ,
+            obj1_y = obj1.get_y() ,
+            obj1_h = obj1.get_height() ,
+            obj1_w = obj1.get_width() ;
+
+        int obj2_x = obj2.get_x()  ,
+           obj2_y = obj2.get_y() ,
+           obj2_h = obj2.get_height() ,
+           obj2_w = obj2.get_width() ;
+
+        //    println(obj1_y , obj1_h  , obj2_y , obj2_h ) ;
+
+         if(   (obj1_y >= obj2_y && obj1_y <= obj2_y+obj2_h  ) 
+            || (obj1_y+obj1_h >= obj2_y && obj1_y+obj1_h <= obj2_y+obj2_h  )
+         ) 
+            return (obj1_x + obj1_w) -obj2_x ;
+        else 
+            return -1 ; 
+    }
+    static int space_from_left(GameObj obj1 , GameObj obj2 )
+    {
+        int obj1_x = obj1.get_x()  ,
+            obj1_y = obj1.get_y() ,
+            obj1_h = obj1.get_height() ,
+            obj1_w = obj1.get_width() ;
+
+        int obj2_x = obj2.get_x()  ,
+           obj2_y = obj2.get_y() ,
+           obj2_h = obj2.get_height() ,
+           obj2_w = obj2.get_width() ;
+
+         if(   (obj1_y >= obj2_y && obj1_y <= obj2_y+obj2_h  ) 
+                ||( obj1_y+obj1_h >= obj2_y && obj1_y+obj1_h <= obj2_y+obj2_h  ) 
+         ) 
+            return obj1_x - (obj2_x + obj2_w)  ;
+        else 
+            return -1 ; 
     }
 
 

@@ -28,7 +28,7 @@ class Hero extends GameObj
 
     boolean is_touch_ground(List<GameObj> arr){
         for(GameObj obj : arr ){
-            if(this.is_intersect(obj , true ) == 1 )
+            if(this.is_intersect(obj  ) == 1 )
                 return true ; 
         }
         return false ; 
@@ -130,19 +130,26 @@ class Hero extends GameObj
         return this.hit_status  ; 
     }
 
-    public void draw(List<GameObj> objects_arr ,Evil[] evils ,List<GameObj> grounds  )
+    public void draw(List<GameObj> objects_arr ,List<Evil> evils ,List<GameObj> grounds  )
     {
         // check if it touch the 
+        int r , l ; 
         for(Evil evil : evils)
         {
-            if(this.is_intersect(evil) > 0 ){
-                // check if is hit in hit status (from right and left )
-                if(this.get_hit_status() > 0 && this.get_dir() == evil.get_dir()){
-
-                }
-                // check if no 
-                else {
-
+            if(!evil.is_dead){
+                r = Intersect.space_from_right(this,evil) ;
+                l = Intersect.space_from_left(this,evil) ;
+                if(r != -1 && l != -1 ){
+                    if ((this.get_dir() == 'R' &&  ( r > -10 && r <= 50 )) || (this.get_dir() == 'L' &&( l > -20 && l < 20 ) )) 
+                    {
+                        if(this.get_hit_status() > 0 )
+                        {
+                            print("win") ;
+                            evil.kill() ; 
+                        } else {
+                            print("lose");
+                        }
+                    }
                 }
 
             }
@@ -185,45 +192,6 @@ class Hero extends GameObj
         }
 
 
-        // if(touch_ground && this.get_jump_status() == 0 && this.get_hit_status() == 0  && this.get_throw_status() == 0 ){
-        //     this.set_jump_status(0 )  ; 
-        //     if(!this.is_running){
-        //         this.change_photo(this.HeroImg[4][this.currentFrame]) ;
-        //     }
-        // }
-
-        // else if (this.get_jump_status() > 0 && this.get_hit_status() > 0 ){
-        //     this.jump_up_attack();
-        // }
-        // else if (this.get_jump_status() > 0 && this.get_throw_status() > 0 ){
-        //     this.jump_up_throw();
-        // }
-        // else if(this.get_jump_status() > 0 ){
-        //     this.jump_up();
-        // }
-
-
-        // if(!touch_ground && this.get_jump_status() == 0){
-        //     this.drop_down(); 
-        // }
-
-        // // increse the current frame         
-        // this.currentFrame = (this.currentFrame+1)%this.numFrames ; 
-        // super.draw() ;
-
-        // // for hit
-        // if(this.get_hit_status() > 0 ){
-        //     this.hit(); 
-        //     this.set_hit_status(this.get_hit_status()-1) ;
-          
-        // }
-
-        // // for throw 
-        // if(this.get_throw_status() > 0 ){
-        //     this.throw_arrow(); 
-        //     this.set_throw_status(this.get_throw_status()-1) ;
-
-        // }
         this.currentFrame = (this.currentFrame+1)%this.numFrames ; 
         super.draw() ;
 
