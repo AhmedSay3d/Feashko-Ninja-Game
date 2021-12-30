@@ -1,4 +1,4 @@
-// feashko production
+//alllllllo feshaaaaaaaa
 import java.util.*;
 float angle = 0.0, moon_motion;
 int screen_width = 1000 ; 
