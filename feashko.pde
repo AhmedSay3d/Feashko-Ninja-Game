@@ -153,7 +153,7 @@ void draw(){
         GameObj a = it.next();
         
         if(a.get_type() == coin){
-            if(ninjaHero.is_intersect(a) != -1){
+            if(ninjaHero.is_intersect(a) > 0 ){
                  f = false;
             }
         }

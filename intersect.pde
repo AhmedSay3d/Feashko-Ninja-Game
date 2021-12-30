@@ -60,7 +60,7 @@ static class Intersect{
         }
 
         // right 
-        if ( abs(obj1_x+obj1_w  - obj2_x ) < 7 
+        if ( abs(obj1_x+obj1_w  - obj2_x ) <= 7 
             &&(   (obj1_y >= obj2_y && obj1_y <= obj2_y+obj2_h  ) 
                 ||( obj1_y+obj1_h >= obj2_y && obj1_y+obj1_h <= obj2_y+obj2_h  ) 
             )
