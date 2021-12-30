@@ -3,7 +3,9 @@ class Evil extends GameObj
 
     int step = 3 ; 
     int sh ; 
+    int  currentFrame = 0 ;  
     PImage[][] images ; 
+    int[] numFrames = {8,12,15,10} ;
     
     
     public Evil(int _x , int _y , PImage[][] img , int _h , int _w , int _sh , int _step )
@@ -48,6 +50,9 @@ class Evil extends GameObj
             move(-this.step,0) ;
         else 
             move(this.step ,0) ;
+
+        this.change_photo(this.images[3][(this.currentFrame)]) ; 
+        this.currentFrame = (this.currentFrame+1)%this.numFrames[3] ; 
 
       
     }

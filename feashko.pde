@@ -16,7 +16,7 @@ int jump_rate = 8 ;
 int numFrames = 9 ; 
 int currentFrame = 0;
 
-int mario_jump_step = 9 ; // this step is * by 5 
+int mario_jump_step = 25 ; // this step is * by 5 
 int time_between_fireball = 400 ; // this time is in millesec
 Mode activeMode;
 Tutorial tutorial;
@@ -91,10 +91,10 @@ void setup(){
     smooth();
     initi_photos() ; 
 
-    ninjaHero = new Hero(ninjaImages , screen_height , drop_rate , jump_rate , 0 , 500 ) ; 
+    ninjaHero = new Hero(ninjaImages , screen_height , drop_rate , jump_rate , 0 , y(ground_height + 50 )) ; 
 
     //(int _x , int _y , PImage[][] img , int _h , int _w , int _sh , int _step )
-    evils[0] = new Evil( 500 , 500 ,zombieImages , -1 , -1 ,screen_height  , 4 ) ;
+    evils[0] = new Evil( 500 , y(ground_height + 60 ) ,zombieImages , -1 , -1 ,screen_height  , 1 ) ;
   
   //background
   background_g = loadImage("data/bg/BG/BG.png");
@@ -160,7 +160,13 @@ void draw(){
        g.draw();
       
     }
+    draw_fire_ball() ; 
+    draw_evil() ;
+    move_hero( ) ;
+    ninjaHero.draw(shapes , evils , grounds) ;
+
 } 
+
 
 void draw_background(){
   background(background_g);
@@ -252,8 +258,8 @@ void initi_photos ()
         String ninjJumpAttkStr = "ninja/Jump_Attack__" + nf(i, 3) + ".png"; ninjJumpAttk[i] =loadImage(ninjJumpAttkStr) ;
         ninjJumpAttk[i].resize(parseInt(ninjJumpAttk[i].width/img_ratio ),parseInt(ninjJumpAttk[i].height/img_ratio ))  ;
 
-        String ninjJumpThrowStr = "ninja/Jump_Throw__" + nf(i, 3) + ".png"; ninjJumpAttk[i] = loadImage(ninjJumpThrowStr);  
-        ninjJumpAttk[i].resize(parseInt(ninjJumpAttk[i].width/img_ratio ),parseInt(ninjJumpAttk[i].height/img_ratio ))  ;
+        String ninjJumpThrowStr = "ninja/Jump_Throw__" + nf(i, 3) + ".png"; ninjJumpThrow[i] = loadImage(ninjJumpThrowStr);  
+        ninjJumpThrow[i].resize(parseInt(ninjJumpThrow[i].width/img_ratio ),parseInt(ninjJumpThrow[i].height/img_ratio ))  ;
 
         String ninjRunStr = "ninja/Run__" + nf(i, 3) + ".png"; ninjRun[i] =loadImage(ninjRunStr) ;
         ninjRun[i].resize(parseInt(ninjRun[i].width/img_ratio) , parseInt(ninjRun[i].height/img_ratio ))  ;
@@ -317,12 +323,12 @@ void initi_photos ()
 
 void move_hero()
 {
-    boolean touch_ground = ninjaHero.is_touch_ground(shapes) ; 
+    boolean touch_ground = ninjaHero.is_touch_ground(grounds) ; 
     int obj_intersection =  ninjaHero.is_intersect(shapes)  ; 
 
     // jump 
     if (isSpacePressed) {
-        if(touch_ground){
+        if(touch_ground && ninjaHero.get_jump_status() == 0 ){
             ninjaHero.set_jump_status(mario_jump_step) ;
             ninjaHero.jump_up() ;
         }

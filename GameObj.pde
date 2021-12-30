@@ -56,13 +56,16 @@ class GameObj {
     }
     
     // method used in resize and get demention 
-    int get_height()
-    {
-        return this.img_height ;
+    int get_height(){
+        if(this.img_height > 0)
+            return this.img_height  ;
+        return this.img.height ;
     }
     int get_width()
     {
-        return this.img_width;
+        if(this.img_width > 0)
+            return this.img_width  ;
+        return this.img.width;
     }
     // void resize(int x , int y )
     // {
@@ -112,6 +115,12 @@ class GameObj {
         else 
             return -1 ; 
     }
+    int is_intersect(GameObj obj , boolean debug){
+        if(obj != null)
+            return  Intersect.check(this , obj , debug) ;
+        else 
+            return -1 ; 
+    }
 
     int is_intersect (List<GameObj> objects_array ,boolean debug ) 
     {
@@ -153,7 +162,6 @@ class GameObj {
         }
         else 
         {
-            // println( this.get_x() ,this.get_y() ,this.img   , this.get_height() , this.get_width() ) ;
             image(this.img , this.get_x() , this.get_y(), this.get_width() , this.get_height()) ; 
         }
     } 

@@ -12,6 +12,7 @@ class Hero extends GameObj
     int knive = 3  ;
     int last_knife = 0 ; 
     boolean is_running = false ; 
+    int temp_x ; 
 
     PImage[][] HeroImg ;
 
@@ -26,14 +27,9 @@ class Hero extends GameObj
     }
 
     boolean is_touch_ground(List<GameObj> arr){
-        // if(true)
-            // return true ;
         for(GameObj obj : arr ){
-            
-                if(this.is_intersect(obj) == 2 ){
-                    return true ; 
-                }
-            
+            if(this.is_intersect(obj , true ) == 1 )
+                return true ; 
         }
         return false ; 
     }
@@ -44,6 +40,18 @@ class Hero extends GameObj
     {
         this.move(0,-this.jr) ;
         this.change_photo(this.HeroImg[5][(this.currentFrame+1)%numFrames] ) ;
+        this.set_jump_status(this.get_jump_status() - 1 ) ;
+    }
+    public void jump_up_attack()
+    {
+        this.move(0,-this.jr) ;
+        this.change_photo(this.HeroImg[6][(this.currentFrame+1)%numFrames] ) ;
+        this.set_jump_status(this.get_jump_status() - 1 ) ;
+    }
+    public void jump_up_throw()
+    {
+        this.move(0,-this.jr) ;
+        this.change_photo(this.HeroImg[7][(this.currentFrame+1)%numFrames] ) ;
         this.set_jump_status(this.get_jump_status() - 1 ) ;
     }
 
@@ -74,10 +82,8 @@ class Hero extends GameObj
         if(this.get_hit_status() ==  0 ){
             this.set_hit_status(this.numFrames +1 ) ;
         }
-        if(this.get_jump_status() > 0 )
-            this.change_photo(this.HeroImg[6][(this.currentFrame+1)%numFrames]) ;
-        else 
-            this.change_photo(this.HeroImg[0][(this.currentFrame+1)%numFrames]) ;  
+        this.change_photo(this.HeroImg[0][this.currentFrame]) ;  
+            
         
     }
 
@@ -87,10 +93,7 @@ class Hero extends GameObj
             this.set_throw_status(this.numFrames +1 ) ;
             this.set_knive(this.get_knive()-1) ;
         }
-        if(this.get_jump_status() > 0 )
-            this.change_photo(this.HeroImg[7][(this.currentFrame+1)%numFrames]) ;
-        else 
-            this.change_photo(this.HeroImg[10][(this.currentFrame+1)%numFrames]) ;  
+        this.change_photo(this.HeroImg[10][this.currentFrame]) ;  
         
     }
     public int get_knive()
@@ -127,7 +130,7 @@ class Hero extends GameObj
         return this.hit_status  ; 
     }
 
-    public void draw(List<GameObj> objects_arr ,Evil[] evils )
+    public void draw(List<GameObj> objects_arr ,Evil[] evils ,List<GameObj> grounds  )
     {
         // check if it touch the 
         for(Evil evil : evils)
@@ -146,39 +149,83 @@ class Hero extends GameObj
         }
 
         //check if is not touch the groudnd drop down 
-        boolean touch_ground = this.is_touch_ground(objects_arr) ; 
+        boolean touch_ground = this.is_touch_ground(grounds) ; 
 
-        if(touch_ground ){
-            this.set_jump_status(0 )  ; 
-            if(!this.is_running){
-                this.change_photo(this.HeroImg[4][(this.currentFrame+1)%numFrames]) ;
+        if(touch_ground && !this.is_running){
+
+            // hit 
+            if(this.get_hit_status() > 0){
+                this.hit(); 
+                this.set_hit_status(this.get_hit_status()-1) ;
+            }
+            // throw 
+            else if (this.get_throw_status() > 0 ){
+                this.throw_arrow(); 
+                this.set_throw_status(this.get_throw_status()-1) ;
+            }
+            else {
+                this.change_photo(this.HeroImg[4][this.currentFrame]) ;
             }
 
         }
-        else if (this.get_jump_status() > 0 ){
-            this.jump_up();
+        else if (this.get_jump_status() > 0)
+        {
+            // hit 
+            if(this.get_hit_status() > 0)
+                this.jump_up_attack();
+            // throw
+            if (this.get_throw_status() > 0 )
+                this.jump_up_throw();
+            else {
+                this.jump_up();
+            }
         }
-        else {
-            // this.drop_down(); 
+        else if(!touch_ground){
+            this.drop_down(); 
         }
 
-        // increse the current frame         
+
+        // if(touch_ground && this.get_jump_status() == 0 && this.get_hit_status() == 0  && this.get_throw_status() == 0 ){
+        //     this.set_jump_status(0 )  ; 
+        //     if(!this.is_running){
+        //         this.change_photo(this.HeroImg[4][this.currentFrame]) ;
+        //     }
+        // }
+
+        // else if (this.get_jump_status() > 0 && this.get_hit_status() > 0 ){
+        //     this.jump_up_attack();
+        // }
+        // else if (this.get_jump_status() > 0 && this.get_throw_status() > 0 ){
+        //     this.jump_up_throw();
+        // }
+        // else if(this.get_jump_status() > 0 ){
+        //     this.jump_up();
+        // }
+
+
+        // if(!touch_ground && this.get_jump_status() == 0){
+        //     this.drop_down(); 
+        // }
+
+        // // increse the current frame         
+        // this.currentFrame = (this.currentFrame+1)%this.numFrames ; 
+        // super.draw() ;
+
+        // // for hit
+        // if(this.get_hit_status() > 0 ){
+        //     this.hit(); 
+        //     this.set_hit_status(this.get_hit_status()-1) ;
+          
+        // }
+
+        // // for throw 
+        // if(this.get_throw_status() > 0 ){
+        //     this.throw_arrow(); 
+        //     this.set_throw_status(this.get_throw_status()-1) ;
+
+        // }
         this.currentFrame = (this.currentFrame+1)%this.numFrames ; 
         super.draw() ;
-
-        // for hit
-        if(this.get_hit_status() > 0 ){
-            this.hit(); 
-            this.set_hit_status(this.get_hit_status()-1) ;
-
-        }
-        
-        // for throw 
-        if(this.get_throw_status() > 0 ){
-            this.throw_arrow(); 
-            this.set_throw_status(this.get_throw_status()-1) ;
-
-        }
 
 
         this.is_running= false ;
