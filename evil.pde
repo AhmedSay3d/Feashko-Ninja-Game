@@ -46,24 +46,16 @@ class Evil extends GameObj
             if( temp == 4 )
                 this.set_dir('R') ;
 
-            // if(!this.is_attack )
-            // {
                 if(this.get_dir()=='L')
                     move(-this.step,0) ;
                 else 
                     move(this.step ,0) ;
-                this.change_photo(this.images[3][(this.currentFrame)]) ; 
+
+                if(this.images[3][(this.currentFrame)] != null )
+                    this.change_photo(this.images[3][(this.currentFrame)]) ; 
                 this.currentFrame = (this.currentFrame+1)%this.numFrames[3] ; 
-            // }
-            // else 
-            // {
-            //     print(attack_status) ;
-            //     this.change_photo(this.images[0][(this.currentFrame)]) ; 
-            //     this.currentFrame = (this.currentFrame+1)%this.numFrames[0] ; 
-            //     this.attack_status -= 1 ; 
-            //     if(this.attack_status == 1 )
-            //         this.is_attack = false ; 
-            // }
+
+          
         }
         else {
             if ( this.dr > 0){
