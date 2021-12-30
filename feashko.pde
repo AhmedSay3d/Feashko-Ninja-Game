@@ -60,7 +60,13 @@ PImage[] ninjThrow = new PImage[numFrames] ;
 
 PImage[][] ninjaImages = new PImage[11][numFrames] ;
 
-PImage[] mario_photos_arr =  new PImage[6] ; 
+// zombie img 
+PImage[] zombieAttack = new PImage[9] ;
+PImage[] zombieDead = new PImage[13] ;
+PImage[] zombieIdle = new PImage[16] ;
+PImage[] zombieWalk = new PImage[11] ;
+
+PImage[][] zombieImages =   new PImage[4][numFrames] ;
 
 
 
@@ -76,33 +82,36 @@ boolean isShiftPressed = false ,
       
 
 void setup(){
-  size(1000,600);
-  smooth();
-  initi_photos() ; 
+    size(1000,600);
+    smooth();
+    initi_photos() ; 
 
-  ninjaHero = new Hero(ninjaImages , screen_height , drop_rate , jump_rate , 0 , 500 ) ; 
+    ninjaHero = new Hero(ninjaImages , screen_height , drop_rate , jump_rate , 0 , 500 ) ; 
+
+    //(int _x , int _y , PImage[][] img , int _h , int _w , int _sh , int _step )
+    evils[0] = new Evil( 500 , 500 ,zombieImages , -1 , -1 ,screen_height  , 4 ) ;
   
 
 
   // change this 
   PImage[] ground_tiles = new PImage[21];
 
-  PImage robot_img = loadImage("robot/Idle__000.png");
-  PImage ninja_img = loadImage("ninja/Idle__000.png");
-  PImage zombie_img = loadImage("zombie/Idle__000.png");
-  PImage coin_img = loadImage("coin.png");
-  PImage special_box_img = loadImage("box_light.png");
-  PImage coin_box_img = loadImage("IceBox.png");
-  PImage waterg_img = ground_tiles[17];
-  PImage spikeg_img = ground_tiles[18];
-  PImage movableg_big_img = ground_tiles[19];
-  PImage movableg_small_img = ground_tiles[20];
+//   PImage robot_img = loadImage("robot/Idle__000.png");
+//   PImage ninja_img = loadImage("ninja/Idle__000.png");
+//   PImage zombie_img = loadImage("zombie/Idle__000.png");
+//   PImage coin_img = loadImage("coin.png");
+//   PImage special_box_img = loadImage("box_light.png");
+//   PImage coin_box_img = loadImage("IceBox.png");
+//   PImage waterg_img = ground_tiles[17];
+//   PImage spikeg_img = ground_tiles[18];
+//   PImage movableg_big_img = ground_tiles[19];
+//   PImage movableg_small_img = ground_tiles[20];
   
   //ground tiles 
-    for(int i=1; i<21; i++) {
-        String s = String.format("data/bg/Tiles/%d.png", i);
-        ground_tiles[i] = loadImage(s);
-    }
+    // for(int i=1; i<21; i++) {
+    //     String s = String.format("data/bg/Tiles/%d.png", i);
+    //     ground_tiles[i] = loadImage(s);
+    // }
 
   
 }
@@ -132,6 +141,17 @@ void draw_fire_ball()
     
         }
 
+    }
+}
+
+void draw_evil()
+{
+    for(Evil evil : evils)
+    {
+        if(evil != null){
+            evil.update(shapes) ;
+            evil.draw();
+        }
     }
 }
 
@@ -196,6 +216,32 @@ void initi_photos ()
         ninjThrow[i].resize(parseInt(ninjThrow[i].width/img_ratio ),parseInt(ninjThrow[i].height/img_ratio ))  ;
 
     }
+  
+
+    for (int i = 0; i < 8; i++) {
+        int t = i+1 ; 
+        String zombieAttStr = "zombie/Attack (" + t + ").png"; zombieAttack[i]= loadImage(zombieAttStr); 
+        zombieAttack[i].resize(parseInt(zombieAttack[i].width/img_ratio ),parseInt(zombieAttack[i].height/img_ratio ))  ;
+
+    }
+    for (int i = 0; i < 12; i++) {
+        int t = i+1 ; 
+        String zombieDeadStr = "zombie/Dead (" + t + ").png";zombieDead[i]= loadImage(zombieDeadStr); 
+        zombieDead[i].resize(parseInt(zombieDead[i].width/img_ratio ),parseInt(zombieDead[i].height/img_ratio ))  ;
+
+    }
+    for (int i = 0; i < 15; i++) {
+        int t = i+1 ; 
+        String zombieIdleStr = "zombie/Idle (" + t + ").png"; zombieIdle[i]= loadImage(zombieIdleStr); 
+        zombieIdle[i].resize(parseInt(zombieIdle[i].width/img_ratio ),parseInt(zombieIdle[i].height/img_ratio ))  ;
+
+    }
+    for (int i = 0; i < 10; i++) {
+        int t = i+1 ; 
+        String zombieWalkStr = "zombie/Walk (" + t + ").png"; zombieWalk[i]= loadImage(zombieWalkStr); 
+        zombieWalk[i].resize(parseInt(zombieWalk[i].width/img_ratio ),parseInt(zombieWalk[i].height/img_ratio ))  ;
+
+    }
 
     ninjaImages[0] = ninjAttk;
     ninjaImages[1] = ninjClimp;
@@ -208,6 +254,12 @@ void initi_photos ()
     ninjaImages[8] = ninjRun;
     ninjaImages[9] = ninjSlide;
     ninjaImages[10] = ninjThrow;
+
+    zombieImages[0] =  zombieAttack  ;
+    zombieImages[1] =  zombieDead  ;
+    zombieImages[2] =  zombieIdle  ;
+    zombieImages[3] =  zombieWalk  ;
+
 
     fireBallImg = loadImage("ninja/Kunai.png") ; fireBallImg.resize(20,20) ;
 
