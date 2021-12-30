@@ -1,6 +1,7 @@
 class GameObj {
 
     public PImage img ;
+    protected int img_height, img_width;
     protected int x_pos , y_pos ;
     protected char dir ;
     protected float img_scale ;
@@ -56,11 +57,11 @@ class GameObj {
     // method used in resize and get demention 
     int get_height()
     {
-        return this.img.height ;
+        return this.img_height ;
     }
     int get_width()
     {
-        return this.img.width ;
+        return this.img_width;
     }
     // void resize(int x , int y )
     // {

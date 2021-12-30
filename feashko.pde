@@ -91,7 +91,11 @@ void setup(){
 
   
   
-
+  for(int i=1; i<21; i++) {
+        String s = String.format("data/bg/Tiles/%d.png", i);
+        ground_tiles[i] = loadImage(s);
+        
+    }
   robot_img = loadImage("robot/Idle__000.png");
   ninja_img = loadImage("ninja/Idle__000.png");
   zombie_img = loadImage("zombie/Idle__000.png");
@@ -108,30 +112,26 @@ void setup(){
   movableg_big_img = ground_tiles[19];
   movableg_small_img = ground_tiles[20];
   
+  
+
   //ground tiles 
-    for(int i=1; i<21; i++) {
-        String s = String.format("data/bg/Tiles/%d.png", i);
-        ground_tiles[i] = loadImage(s);
-    }
+    
 
   
 }
 
-void scene2(int offset){
-  
-    int initial = 1000*2+offset;  
-    grounds.add(new GameObj(initial, y(ground_height), false, cliffg_l_img,100,50));
-    for(int i=1; i<11;i++){
-        grounds.add(new GameObj(initial+(50*i), y(ground_height), false, cliffg_l_img,100,50));
-    }
-}
+
 
 void draw(){
-    background(0, 0, 0);
     draw_fire_ball() ;
     move_hero() ; 
-
+    
     ninjaHero.draw( shapes , evils) ;
+    
+    for(GameObj g: grounds){
+      
+      
+    }
 } 
 
 
