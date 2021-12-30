@@ -4,7 +4,8 @@ class GameObj {
     protected int x_pos , y_pos ;
     protected char dir ;
     protected float img_scale ;
-    protected String type = null;
+    protected boolean is_special =false;
+    protected String special_type = null;
     public boolean is_move , is_vis; 
     protected GameObj index  ;
     
@@ -16,7 +17,7 @@ class GameObj {
     {
         this.set_coordintes(_x,_y ); 
         this.is_move = _is_move ; 
-        this.change_photo(img,h,w) ; 
+        this.change_photo(img) ; 
         this.set_type(type);
         // this.set_height(height);
         // this.set_width(width) ; 
@@ -61,29 +62,42 @@ class GameObj {
     {
         return this.img.width ;
     }
-    void resize(int x , int y )
-    {
-        this.img.resize(x,y) ; 
+    // void resize(int x , int y )
+    // {
+    //     this.img.resize(x,y) ; 
+    // }
+    
+    void set_special(){
+      this.is_special = true;
     }
     
-    
+    boolean get_special(){
+      return is_special;
+    }
     
     void set_type(String type){
-      this.type = type;
+      if(type != null){
+        this.special_type = type;
+        set_special();
+      }
     }
     
     String get_type(){
-      return this.type;
+      return this.special_type;
     }
     GameObj get_intersect_obj(){
       return this.index;
     }
-    
+    void change_photo (PImage _img )
+    {
+        this.change_photo(_img , -1  , -1 ) ;
+    }
+
     void change_photo(PImage  _img , int h , int w )
     {
         this.img = _img ; 
-        if(h!= -1 && w != -1  )
-            this.resize(h,w) ;
+        // if(h!= -1 && w != -1  )
+        //     this.resize(h,w) ;
     }
 
     /* check if intersect 
@@ -98,6 +112,13 @@ class GameObj {
         return this.is_intersect(objects_array , false ) ;
     }
 
+    int is_intersect(GameObj obj){
+        if(obj != null)
+            return  Intersect.check(this , obj , false) ;
+        else 
+            return -1 ; 
+    }
+
     int is_intersect (GameObj[] objects_array ,boolean debug ) 
     {
         int temp =-1 ;
@@ -106,8 +127,7 @@ class GameObj {
             {
                 if(obj != null)
                 {
-                    //temp = Intersect.check(this , obj , debug) ;
-                    temp = 0;
+                    temp = Intersect.check(this , obj , debug) ;
                     if (temp > 0 )
                     {
                         this.index = obj ; 
@@ -129,7 +149,19 @@ class GameObj {
 
     public void draw()
     {
-        image(this.img , this.get_x() , this.get_y(), this.get_height() , this.get_width()) ; 
+        if(this.get_dir() =='L' )
+        {
+            pushMatrix();
+            translate( this.get_x() + this.get_width() , this.get_y() );
+            scale( -1, 1 );
+            image( this.img , 0, 0 );
+            popMatrix();
+        }
+        else 
+        {
+            // println( this.get_x() ,this.get_y() ,this.img   , this.get_height() , this.get_width() ) ;
+            image(this.img , this.get_x() , this.get_y(), this.get_width() , this.get_height()) ; 
+        }
     } 
 
     public char get_dir()

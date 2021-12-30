@@ -23,6 +23,14 @@ class FireBall extends GameObj
         this.set_from(from) ;
         this.set_dir(dir) ;
     }
+    public void update_linear()
+    {
+        if(this.get_dir() == 'R')
+            move(10,0);
+        else 
+            move(-10,0);
+    }
+
     public void set_from(int f )
     {
         this.from = f;
