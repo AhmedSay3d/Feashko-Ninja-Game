@@ -4,7 +4,7 @@ float angle = 0.0, moon_motion;
 int screen_width = 1000 ; 
 int screen_height = 600 ;
 int half_screen = screen_width/2 ; 
-int ground_height = 100;
+int ground_height = 50;
 int change_backgrond_sec = 30 ; // in 
 int time_between_knife = 200 ; 
 
@@ -123,7 +123,7 @@ void setup(){
   movableg_big_img = ground_tiles[19];
   movableg_small_img = ground_tiles[20];
   
-  
+  scene2();
 
   //ground tiles 
     
@@ -131,17 +131,31 @@ void setup(){
   
 }
 
-
+void scene2(){
+  
+   int initial = 0;  
+   for(int i=0; i<20;i++){
+         if(i==0){
+            grounds.add(new GameObj(initial+(50*i), y(ground_height), false, cliffg_l_img,100,50));
+           continue;  
+       }
+        if(i==19){
+          grounds.add(new GameObj(initial+(50*i), y(ground_height), false, cliffg_r_img,100,50));
+           continue;
+        }
+        if(i == 7 || i ==8 || i == 14 || i==15){
+          grounds.add(new GameObj(initial+(50*i), y(ground_height), false, waterg_img,100,50));
+          continue;
+        }
+        grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
+    }
+    
+}
 
 void draw(){
     draw_background();
-    draw_fire_ball() ;
-    move_hero() ; 
-    
-    ninjaHero.draw(shapes , evils) ;
-    
     for(GameObj g: grounds){
-      
+       g.draw();
       
     }
 } 

@@ -5,6 +5,7 @@ class GameObj {
     protected int x_pos , y_pos ;
     protected char dir ;
     protected float img_scale ;
+    protected String type;
     public boolean is_move , is_vis; 
     protected GameObj index  ;
     
@@ -18,6 +19,8 @@ class GameObj {
         this.is_move = _is_move ; 
         this.change_photo(img) ; 
         this.set_type(type);
+        this.img_height = h;
+        this.img_width = w;
         // this.set_height(height);
         // this.set_width(width) ; 
 
@@ -69,14 +72,12 @@ class GameObj {
   
     
     void set_type(String type){
-      if(type != null){
-        this.special_type = type;
-        set_special();
-      }
+      
+        this.type = type;
     }
     
     String get_type(){
-      return this.special_type;
+      return this.type;
     }
     GameObj get_intersect_obj(){
       return this.index;

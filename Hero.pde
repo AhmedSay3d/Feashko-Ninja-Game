@@ -29,11 +29,11 @@ class Hero extends GameObj
         // if(true)
             // return true ;
         for(GameObj obj : arr ){
-            if(obj != null){
+            
                 if(this.is_intersect(obj) == 2 ){
                     return true ; 
                 }
-            }
+            
         }
         return false ; 
     }
