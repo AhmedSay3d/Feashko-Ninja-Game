@@ -1,5 +1,5 @@
 import java.util.*;
-float angle = 0.0, moon_motion;
+float angle = 0.0, moon_motion, saw_angle = 0;
 int screen_width = 1000 ; 
 int screen_height = 600 ;
 int half_screen = screen_width/2 ; 
@@ -32,8 +32,7 @@ final String coinb  = "coinb";
 final String waterg  = "waterg";
 final String spikeg  = "spikeg";
 final String movableg = "movableg";
-
-
+final String saw_str = "saw";
 // fire ball 
 List<FireBall> fireBalls =new ArrayList<FireBall>();  
 
@@ -42,7 +41,7 @@ List<GameObj> grounds = new ArrayList<GameObj>();
 Hero ninjaHero ;  
 Evil[] evils = new Evil[10] ;
 
-PImage fireBallImg, moon, background_g ;   
+PImage fireBallImg, moon, background_g;   
 
 PImage[] ninjAttk = new PImage[numFrames] ;
 PImage[] ninjClimp = new PImage[numFrames] ;
@@ -71,7 +70,7 @@ PImage robot_img ,ninja_img, zombie_img, coin_img,
         special_box_img, coin_box_img, hazard_img,
         saw_img, normalg_img, cliffg_r_img,
         cliffg_l_img, waterg_img, spikeg_img,
-        movableg_big_img, movableg_small_img;
+        movableg_big_img, movableg_small_img, fixed_box_img;
 
 
 
@@ -89,18 +88,16 @@ void setup(){
     size(1000,600);
     smooth();
     initi_photos() ; 
-
+    
     ninjaHero = new Hero(ninjaImages , screen_height , drop_rate , jump_rate , 0 , 500 ) ; 
-
+    
     //(int _x , int _y , PImage[][] img , int _h , int _w , int _sh , int _step )
     evils[0] = new Evil( 500 , 500 ,zombieImages , -1 , -1 ,screen_height  , 4 ) ;
-  
   //background
   background_g = loadImage("data/bg/BG/BG.png");
   moon = loadImage("moon.png");
   background_g.resize(1000, 600);
   moon.resize(100, 100);   
-  
   for(int i=1; i<21; i++) {
         String s = String.format("data/bg/Tiles/%d.png", i);
         ground_tiles[i] = loadImage(s);
@@ -114,6 +111,7 @@ void setup(){
   coin_box_img = loadImage("IceBox.png");
   hazard_img = loadImage("Barrel.png");
   saw_img = loadImage("Saw.png");
+  fixed_box_img = loadImage("fixed_box.png");
   normalg_img = ground_tiles[2];
   cliffg_r_img = ground_tiles[3];
   cliffg_l_img = ground_tiles[1];
@@ -122,20 +120,93 @@ void setup(){
   movableg_big_img = ground_tiles[19];
   movableg_small_img = ground_tiles[20];
   
-  scene2();
+  //add saw to shapes then don't show it and show rotate saw
+  shapes.add(new GameObj(0 + 495, y(ground_height + 30), false, saw_img, 50, 50, saw_str));
+  
+  
+  
+  //scene_0();
+  scene_1();
+  //scene2();
 
   //ground tiles 
     
 
   
 }
+void scene_0(){
+    int initial = 0;
+    for(int i=0; i<20;i++){
+       if(i == 9 || i == 10 || i == 11)
+         grounds.add(new GameObj(initial+(50*i), y(ground_height - 20), false, waterg_img,100,50));
+       else
+         grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
+    }
+    shapes.add(new GameObj(initial + 200, y(ground_height + 30), false, fixed_box_img, 30, 30));
+    shapes.add(new GameObj(initial + 200, y(ground_height + 30 + 30), false, fixed_box_img, 30, 30)); 
+    shapes.add(new GameObj(initial + 370, y(ground_height + 30), false, fixed_box_img, 30, 30));
+    shapes.add(new GameObj(initial + 370, y(ground_height + 30 + 30), false, fixed_box_img, 30, 30));    
+   
+    shapes.add(new GameObj(initial + 230, y(ground_height + 80), false, zombie_img, 85, 65));  
+    
+    shapes.add(new GameObj(initial + 650, y(ground_height + 30), false, coin_img, 30, 30));
+    shapes.add(new GameObj(initial + 650, y(ground_height + 30), false, coin_box_img, 30, 30));
+    shapes.add(new GameObj(initial + 680, y(ground_height + 30), false, fixed_box_img, 30, 30));
+    shapes.add(new GameObj(initial + 710, y(ground_height + 30), false, coin_img, 30, 30));
+    shapes.add(new GameObj(initial + 710, y(ground_height + 30), false, coin_box_img, 30, 30));
+    
+    
+    
+    for(int i = 0; i < 5; ++i){
+        int d = i;
+        if(i >= 3)
+            d = 5 - i - 1;
+        println("i = ", i);
+        println("d = ", d);
 
+        for(int j = 0; j <= d; ++j){
+          println("j = ", j);
+          shapes.add(new GameObj(initial + 800 + (i * 30), y(ground_height + 30 + (j * 30)), false, fixed_box_img, 30, 30));   
+        }  
+  }
+    
+}
+
+void scene_1(){
+  int initial = 0;
+  for(int i=0; i<20;i++){
+         if(i == 15 || i == 16 || i == 17)
+             grounds.add(new GameObj(initial+(50*i), y(ground_height - 20), false, spikeg_img,100,50));
+         else
+             grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
+   }
+  for(int i = 0; i < 3; ++i)
+      shapes.add(new GameObj(initial + 50 + (i * 45), y(ground_height + 40), false, coin_img, 30, 30));
+  for(int i = 0; i < 3; ++i){
+    if(i == 0)
+        grounds.add(new GameObj(initial+215+(50*i), y(ground_height + 150), false, cliffg_l_img,25,50));
+    else if(i == 1)
+        grounds.add(new GameObj(initial+215+(50*i), y(ground_height + 150), false, normalg_img,25,50));
+    else
+        grounds.add(new GameObj(initial+215+(50*i), y(ground_height + 150), false, cliffg_r_img,25,50));
+  }
+  
+  for(int i = 0; i < 3; ++i)
+        shapes.add(new GameObj(initial+220+(50*i), y(ground_height + 150 + 40), false, coin_img, 30, 30));
+  
+    shapes.add(new GameObj(initial + 415, y(ground_height + 30), false, fixed_box_img, 30, 30));
+    shapes.add(new GameObj(initial + 600, y(ground_height + 30), false, fixed_box_img, 30, 30));
+    
+    
+
+      
+}
 void scene2(){
   
    int initial = 0;  
    for(int i=0; i<20;i++){
-         if(i==0){
-            grounds.add(new GameObj(initial+(50*i), y(ground_height), false, cliffg_l_img,100,50));
+       if(i==0){
+           grounds.add(new GameObj(initial+(50*i), y(ground_height), false, cliffg_l_img,100,50));
            continue;  
        }
         if(i == 7 || i ==8 || i == 14 || i==15){
@@ -152,13 +223,18 @@ void scene2(){
 
 void draw(){
     draw_background();
+    draw_saw();
     for(GameObj s: shapes){
-       s.draw(); 
-    }
+      if(s.get_type() == saw_str)
+          continue;
+      s.draw(); 
+        
+  }
     for(GameObj g: grounds){
        g.draw();
       
     }
+  
 } 
 
 void draw_background(){
@@ -171,6 +247,18 @@ void draw_background(){
   angle += 0.02;
   popMatrix();
   imageMode(CORNER);
+}
+
+void draw_saw(){
+    imageMode(CENTER);
+    pushMatrix();
+    translate(520, y(50));
+    rotate(saw_angle);
+    image(saw_img, 0, 0, 50, 50);
+    popMatrix();
+    imageMode(CORNER);
+    saw_angle += 0.1;
+
 }
 
 void draw_fire_ball()

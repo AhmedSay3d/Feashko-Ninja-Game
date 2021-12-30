@@ -69,7 +69,9 @@ class GameObj {
     //     this.img.resize(x,y) ; 
     // }
     
-  
+    public PImage get_image(){
+       return this.img;
+    }
     
     void set_type(String type){
       
