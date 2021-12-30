@@ -12,11 +12,22 @@ class Evil extends GameObj
     int dr = 0 ; 
     
     
-    public Evil(int _x , int _y , PImage[][] img , int _h , int _w , int _sh , int _step )
+    public Evil(int _x , int _y , PImage[][] img , int _h , int _w , int _sh , int _step , String type)
     {
-       this(_x, _y, img[3][1], _h, _w, _sh, null); 
+       this(_x, _y, img[3][1], _h, _w, _sh, type); 
        this.images = img ; 
        this.step = _step ;
+    }
+     public Evil(int _x , int _y , PImage img , int _h , int _w , int _sh, int _step, String type ){
+      
+       this(_x , _y , img , _h , _w, _sh, _step);
+       this.type = type;
+       
+    }
+    public Evil(int _x , int _y , PImage img , int _h , int _w , int _sh, int _step ){
+      
+       this(_x , _y , img , _h , _w, _sh, null);
+       this.step = _step;
     }
     public Evil(int _x , int _y , PImage img , int _h , int _w , int _sh, String type)
     {

@@ -10,7 +10,8 @@ class Hero extends GameObj
     int currentFrame = 0 ; 
     int num_arrow ;
     int knive = 3  ;
-    int last_knife = 0 ; 
+    int last_knife = 0 ;
+    int num_coins = 0;
     boolean is_running = false ; 
     int temp_x ; 
 

@@ -1,13 +1,15 @@
 // feashko production
 import java.util.*;
-float angle = 0.0, moon_motion;
+float angle = 0.0, saw_angle=0;
 int screen_width = 1000 ; 
 int screen_height = 600 ;
 int half_screen = screen_width/2 ; 
 int ground_height = 50;
 int change_backgrond_sec = 30 ; // in 
 int time_between_knife = 200 ; 
-
+int box_width=30,box_height=30;
+int floatg_width=50, floatg_height = 50;
+int saw_motion = 0, saw_draw_back = 1;
 float img_ratio  = 7.26 ; 
 
 int drop_rate = 8 ;
@@ -34,7 +36,7 @@ final String waterg  = "waterg";
 final String spikeg  = "spikeg";
 final String movableg = "movableg";
 final String saw = "saw";
-
+final String hazard = "hazard";
 
 // fire ball 
 List<FireBall> fireBalls =new ArrayList<FireBall>();  
@@ -196,50 +198,17 @@ void scene_1(int offset){
         grounds.add(new GameObj(initial+215+(50*i), y(ground_height + 150), false, cliffg_r_img,25,50));
   }
   
-  for(int i = 0; i < 3; ++i)
-        shapes.add(new GameObj(initial+220+(50*i), y(ground_height + 150 + 40), false, coin_img, 30, 30));
   
-    shapes.add(new GameObj(initial + 415, y(ground_height + 30), false, fixed_box_img, 30, 30));
-    shapes.add(new GameObj(initial + 600, y(ground_height + 30), false, fixed_box_img, 30, 30));
-    
+  
+  //scene_0(0);
+  scene_1(0);
+  //scene_2(0);
+  //scene_3(0);
+  //scene_4(0);
+  //scene_5(0);
+  //ground tiles 
     
 
-      
-}
-
-void scene_2(int offset){
-  
-   int initial = 0+offset;  
-   for(int i=0; i<20;i++){
-         if(i==0){
-            grounds.add(new GameObj(initial+(50*i), y(ground_height), false, cliffg_l_img,100,50));
-           continue;  
-       }
-        if(i == 7 || i ==8 || i == 14 || i==15){
-          grounds.add(new GameObj(initial+(50*i), y(ground_height-20), false, waterg_img,100,50));
-          continue;
-        }
-        grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
-    }
-    
-   for(int i=2; i<5; i++){
-     grounds.add(new GameObj(initial+(50*i), y(200), false, normalg_img,50,50));
-   }
-  
-  shapes.add(new GameObj(initial+(50*9), y(ground_height+30), false, coin_img,30,30, coin));
-  shapes.add(new GameObj(initial+(50*13), y(ground_height+30), false, coin_img,30,30, coin));
-   
-  shapes.add(new GameObj(initial+(50*2), y(230), false, coin_img,30,30, coin));
-  shapes.add(new GameObj(initial+(50*4-15), y(230), false, coin_img,30,30, coin));
-  shapes.add(new GameObj(initial+(50*5), y(ground_height+30), false, coin_img,30,30, coin));
-  
-  shapes.add(new GameObj(initial+(50*5), y(ground_height+30), false, coin_box_img,30,30, coinb));
-  shapes.add(new GameObj(initial+(50*2), y(230), false, coin_box_img,30,30, coinb));
-  shapes.add(new GameObj(initial+(50*4-15), y(230), false, coin_box_img,30,30, coinb));
-  shapes.add(new GameObj(initial+(50*18), y(ground_height+30), false, special_box_img,30,30, "to be random"));
-  shapes.add(new GameObj(initial+(50*3), y(230), false, special_box_img,30,30, "to be randomized"));
- 
-  shapes.add(new GameObj(initial+(50*12), y(ground_height + 80), false, robot_img,85,65, "to be randomized"));
   
 }
 
@@ -287,21 +256,40 @@ void draw(){
     frameRate(50);
     draw_background();
     _translate() ;
-    for(GameObj s: shapes){
-       s.draw(); 
+    println(shapes.size());
+    Iterator<GameObj> it = shapes.iterator();
+    while(it.hasNext()){
+        boolean f = true;
+        GameObj a = it.next();
+        
+        if(a.get_type() == coin){
+            if(ninjaHero.is_intersect(a) > 0 ){
+                 f = false;
+            }
+        }
+        if(f == false)
+            it.remove();
     }
+    
+    println(shapes.size());
+    for(GameObj s: shapes){
+        if(s.get_type() == saw){
+            draw_saw(s.get_x(), s.get_y(), s.img, 4);
+            continue;
+        }
+        s.draw(); 
+    }
+    
     for(GameObj g: grounds){
        g.draw();
-      
     }
+    
     draw_fire_ball() ; 
     draw_evil() ;
     move_hero( ) ;
     ninjaHero.draw(shapes , evils , grounds) ;
-
-
 } 
-
+ 
 
 void draw_background(){
   background(background_g);
@@ -313,6 +301,46 @@ void draw_background(){
   angle += 0.02;
   popMatrix();
   imageMode(CORNER);
+}
+
+
+void draw_saw(int x_pos, int y_pos, PImage img, int offset){
+    imageMode(CENTER);
+    pushMatrix();
+    if(offset == 0)
+        translate(x_pos - 25, y_pos);
+    else{
+      translate( (x_pos - 25 + saw_motion), y_pos);
+    }
+    rotate(saw_angle);
+    image(img, 0, 0, 50, 50);
+    popMatrix();
+    imageMode(CORNER);
+    
+    if(x_pos - 25 + saw_motion <= 500 && saw_draw_back == 0)
+          saw_draw_back = 1;
+    else if(x_pos - 25 + saw_motion >= 650 && saw_draw_back == 1)
+          saw_draw_back = 0;  
+    if(saw_draw_back == 1)
+        ++saw_motion;
+    else
+        --saw_motion;
+    
+    saw_angle += 0.1;
+
+}
+
+
+void draw_coin(int x_pos, int y_pos, PImage img, int offs){
+    offs *= 1000;
+    pushMatrix();
+    translate(x_pos, 100);
+    imageMode(CENTER);
+    rotate(angle);
+    image(moon, 0, 0);
+    angle += 0.02;
+    popMatrix();
+    imageMode(CORNER);
 }
 
 void draw_fire_ball()
