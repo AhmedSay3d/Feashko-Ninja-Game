@@ -123,8 +123,8 @@ void setup(){
   movableg_big_img = ground_tiles[19];
   movableg_small_img = ground_tiles[20];
   
-  scene2();
-
+  //scene2();
+  scene3(0);
   //ground tiles 
     
 
@@ -149,6 +149,29 @@ void scene2(){
    for(int i=2; i<5; i++){
      grounds.add(new GameObj(initial+(50*i), y(200), false, normalg_img,25,50));
    }
+}
+
+void scene3(int initial){
+  for(int i=0; i < 5;i++)
+      grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
+  for(int i=5; i < 8;i++)
+      grounds.add(new GameObj(initial+(50*i), y(ground_height), false, waterg_img,100,50));
+  for(int i=8; i < 15;i++)
+      grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
+  for(int i=15; i < 20;i++)
+      grounds.add(new GameObj(initial+(50*i), y(ground_height), false, waterg_img,100,50));
+  for(int i=15; i < 18; i++)
+    grounds.add(new GameObj(initial+(50*i), y(ground_height)-200, false, normalg_img,100,50));
+  for(int i=5; i < 12;i++)
+    grounds.add(new GameObj(initial+(50*i), y(ground_height)-350, false, normalg_img,100,50));
+  for(int i=0; i < 3;i++)
+      grounds.add(new GameObj(initial+(50*i), y(ground_height)-250, false, normalg_img,100,50));
+  
+  shapes.add(new GameObj(initial+(50* 10), y(ground_height)-80, false, hazard_img, 100, 50, "TODO INSERT TYPE NAME"));
+  shapes.add(new GameObj(initial+(40* 0), y(ground_height)-400, false, special_box_img, 40, 40, "TODO INSERT TYPE NAME"));
+  shapes.add(new GameObj(initial+(40* 1), y(ground_height)-400, false, special_box_img, 40, 40, "TODO INSERT TYPE NAME"));
+  shapes.add(new GameObj(initial+(40* 2), y(ground_height)-400, false, special_box_img, 40, 40, "TODO INSERT TYPE NAME"));
+      
 }
 
 void draw(){
