@@ -117,7 +117,7 @@ class GameObj {
     }
     int is_intersect(GameObj obj , boolean debug){
         if(obj != null)
-            return  Intersect.check(this , obj , debug) ;
+            return  Intersect.check(this , obj , debug);
         else 
             return -1 ; 
     }

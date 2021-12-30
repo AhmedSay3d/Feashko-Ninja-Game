@@ -27,13 +27,8 @@ void scene_0(int offset){
         int d = i;
         if(i >= 3)
             d = 5 - i - 1;
-        println("i = ", i);
-        println("d = ", d);
-
-        for(int j = 0; j <= d; ++j){
-          println("j = ", j);
-          shapes.add(new GameObj(initial + 800 + (i * 30), y(ground_height + 30 + (j * 30)), false, fixed_box_img, box_height, box_width));   
-        }  
+        for(int j = 0; j <= d; ++j)
+          shapes.add(new GameObj(initial + 800 + (i * 30), y(ground_height + 30 + (j * 30)), false, fixed_box_img, box_height, box_width));    
   }
 }
 

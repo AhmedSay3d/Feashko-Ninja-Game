@@ -132,10 +132,10 @@ void setup(){
   
   
   //scene_0(0);
-  //scene_1(0);
+  scene_1(0);
   //scene_2(0);
   //scene_3(0);
-  scene_4(0);
+  //scene_4(0);
   //scene_5(0);
   //ground tiles 
     
@@ -146,13 +146,30 @@ void setup(){
 
 void draw(){
     draw_background();
+    println(shapes.size());
+    Iterator<GameObj> it = shapes.iterator();
+    while(it.hasNext()){
+        boolean f = true;
+        GameObj a = it.next();
+        
+        if(a.get_type() == coin){
+            if(ninjaHero.is_intersect(a) != -1){
+                 f = false;
+            }
+        }
+        if(f == false)
+            it.remove();
+    }
+    
+    println(shapes.size());
     for(GameObj s: shapes){
         if(s.get_type() == saw){
             draw_saw(s.get_x(), s.get_y(), s.img, 4);
             continue;
-        }   
+        }
         s.draw(); 
     }
+    
     for(GameObj g: grounds){
        g.draw();
     }
@@ -161,7 +178,6 @@ void draw(){
     draw_evil() ;
     move_hero( ) ;
     ninjaHero.draw(shapes , evils , grounds) ;
-    println(shapes.size());
 } 
  
 
@@ -203,6 +219,20 @@ void draw_saw(int x_pos, int y_pos, PImage img, int offset){
     saw_angle += 0.1;
 
 }
+
+
+void draw_coin(int x_pos, int y_pos, PImage img, int offs){
+    offs *= 1000;
+    pushMatrix();
+    translate(x_pos, 100);
+    imageMode(CENTER);
+    rotate(angle);
+    image(moon, 0, 0);
+    angle += 0.02;
+    popMatrix();
+    imageMode(CORNER);
+}
+
 void draw_fire_ball()
 {
     for(FireBall ball : fireBalls){
