@@ -139,10 +139,6 @@ void scene2(){
             grounds.add(new GameObj(initial+(50*i), y(ground_height), false, cliffg_l_img,100,50));
            continue;  
        }
-        if(i==19){
-          grounds.add(new GameObj(initial+(50*i), y(ground_height), false, cliffg_r_img,100,50));
-           continue;
-        }
         if(i == 7 || i ==8 || i == 14 || i==15){
           grounds.add(new GameObj(initial+(50*i), y(ground_height), false, waterg_img,100,50));
           continue;
@@ -150,10 +146,16 @@ void scene2(){
         grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
     }
     
+   for(int i=2; i<5; i++){
+     grounds.add(new GameObj(initial+(50*i), y(200), false, normalg_img,25,50));
+   }
 }
 
 void draw(){
     draw_background();
+    for(GameObj s: shapes){
+       s.draw(); 
+    }
     for(GameObj g: grounds){
        g.draw();
       
