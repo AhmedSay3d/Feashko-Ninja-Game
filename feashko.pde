@@ -40,7 +40,7 @@ final String movableg = "movableg";
 // fire ball 
 List<FireBall> fireBalls =new ArrayList<FireBall>();  
 
-GameObj[] shapes = new GameObj[10] ; 
+List<GameObj> shapes = new ArrayList<GameObj>();
 Hero ninjaHero ;  
 Evil[] evils = new Evil[10] ;
 
@@ -60,7 +60,6 @@ PImage[] ninjThrow = new PImage[numFrames] ;
 
 PImage[][] ninjaImages = new PImage[11][numFrames] ;
 
-PImage[] mario_photos_arr =  new PImage[6] ; 
 
 
 
@@ -93,6 +92,11 @@ void setup(){
   PImage coin_img = loadImage("coin.png");
   PImage special_box_img = loadImage("box_light.png");
   PImage coin_box_img = loadImage("IceBox.png");
+  PImage hazard_img = loadImage("Barrel.png");
+  PImage saw_img = loadImage("Saw.png");
+  PImage normalg_img = ground_tiles[2];
+  PImage cliffg_r_img = ground_tiles[3];
+  PImage cliffg_l_img = ground_tiles[1];
   PImage waterg_img = ground_tiles[17];
   PImage spikeg_img = ground_tiles[18];
   PImage movableg_big_img = ground_tiles[19];

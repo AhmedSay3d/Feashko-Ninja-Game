@@ -17,7 +17,7 @@ class Evil extends GameObj
         this.screen_height= _sh  ;
     }
 
-    //private boolean is_touch_ground(GameObj[] objects_arr  )
+    //private boolean is_touch_ground(List<GameObj> objects_arr  )
     //{
     //    if(this.is_intersect(objects_arr ) == 1 )
     //        return true ;
@@ -34,7 +34,7 @@ class Evil extends GameObj
     //    return false ; 
     //}
 
-    public void update (GameObj[] objects_arr)
+    public void update (List<GameObj> objects_arr)
     {
         int temp = this.is_intersect(objects_arr,true) ;
         // t

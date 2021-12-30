@@ -25,7 +25,7 @@ class Hero extends GameObj
         this.sh = _sh ;
     }
 
-    boolean is_touch_ground(GameObj[] arr){
+    boolean is_touch_ground(List<GameObj> arr){
         // if(true)
             // return true ;
         for(GameObj obj : arr ){
@@ -127,7 +127,7 @@ class Hero extends GameObj
         return this.hit_status  ; 
     }
 
-    public void draw(GameObj[] objects_arr ,Evil[] evils )
+    public void draw(List<GameObj> objects_arr ,Evil[] evils )
     {
         // check if it touch the 
         for(Evil evil : evils)

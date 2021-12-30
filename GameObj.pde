@@ -107,7 +107,7 @@ class GameObj {
         4=> from left 
         -1 =>  didn't intersect  
     */
-    int is_intersect (GameObj[] objects_array)
+    int is_intersect (List<GameObj> objects_array)
     {
         return this.is_intersect(objects_array , false ) ;
     }
@@ -119,7 +119,7 @@ class GameObj {
             return -1 ; 
     }
 
-    int is_intersect (GameObj[] objects_array ,boolean debug ) 
+    int is_intersect (List<GameObj> objects_array ,boolean debug ) 
     {
         int temp =-1 ;
         if(objects_array != null)
