@@ -33,6 +33,7 @@ final String coinb  = "coinb";
 final String waterg  = "waterg";
 final String spikeg  = "spikeg";
 final String movableg = "movableg";
+final String saw = "saw";
 
 
 // fire ball 
@@ -72,7 +73,8 @@ PImage robot_img ,ninja_img, zombie_img, coin_img,
         special_box_img, coin_box_img, hazard_img,
         saw_img, normalg_img, cliffg_r_img,
         cliffg_l_img, waterg_img, spikeg_img,
-        movableg_big_img, movableg_small_img;
+        movableg_big_img, movableg_small_img,
+        fixed_box_img;
 
 
 
@@ -113,6 +115,7 @@ void setup(){
   coin_img = loadImage("coin.png");
   special_box_img = loadImage("box_light.png");
   coin_box_img = loadImage("IceBox.png");
+  fixed_box_img = loadImage("fixed_box.png");
   hazard_img = loadImage("Barrel.png");
   saw_img = loadImage("Saw.png");
   normalg_img = ground_tiles[2];
@@ -123,54 +126,142 @@ void setup(){
   movableg_big_img = ground_tiles[19];
   movableg_small_img = ground_tiles[20];
   
-  //scene2();
-  scene3(0);
+  scene_1(0);
+  //scene3(0);
   //ground tiles 
     
 
   
 }
 
-void scene2(){
+void scene_0(int offset){
+    int initial = 0+offset;
+    for(int i=0; i<20;i++){
+       if(i == 9 || i == 10 || i == 11)
+         grounds.add(new GameObj(initial+(50*i), y(ground_height - 20), false, waterg_img,100,50));
+       else
+         grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
+    }
+    shapes.add(new GameObj(initial + 200, y(ground_height + 30), false, fixed_box_img, 30, 30));
+    shapes.add(new GameObj(initial + 200, y(ground_height + 30 + 30), false, fixed_box_img, 30, 30)); 
+    shapes.add(new GameObj(initial + 370, y(ground_height + 30), false, fixed_box_img, 30, 30));
+    shapes.add(new GameObj(initial + 370, y(ground_height + 30 + 30), false, fixed_box_img, 30, 30));    
+   
+    shapes.add(new GameObj(initial + 230, y(ground_height + 80), false, zombie_img, 85, 65));  
+    
+    shapes.add(new GameObj(initial + 650, y(ground_height + 30), false, coin_img, 30, 30));
+    shapes.add(new GameObj(initial + 650, y(ground_height + 30), false, coin_box_img, 30, 30));
+    shapes.add(new GameObj(initial + 680, y(ground_height + 30), false, fixed_box_img, 30, 30));
+    shapes.add(new GameObj(initial + 710, y(ground_height + 30), false, coin_img, 30, 30));
+    shapes.add(new GameObj(initial + 710, y(ground_height + 30), false, coin_box_img, 30, 30));
+    
+    
+    
+    for(int i = 0; i < 5; ++i){
+        int d = i;
+        if(i >= 3)
+            d = 5 - i - 1;
+        println("i = ", i);
+        println("d = ", d);
+
+        for(int j = 0; j <= d; ++j){
+          println("j = ", j);
+          shapes.add(new GameObj(initial + 800 + (i * 30), y(ground_height + 30 + (j * 30)), false, fixed_box_img, 30, 30));   
+        }  
+  }
+    
+}
+
+void scene_1(int offset){
+  int initial = 0+offset;
+  for(int i=0; i<20;i++){
+         if(i == 15 || i == 16 || i == 17)
+             grounds.add(new GameObj(initial+(50*i), y(ground_height - 20), false, spikeg_img,100,50));
+         else
+             grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
+   }
+  for(int i = 0; i < 3; ++i)
+      shapes.add(new GameObj(initial + 50 + (i * 45), y(ground_height + 40), false, coin_img, 30, 30));
+  for(int i = 0; i < 3; ++i){
+    if(i == 0)
+        grounds.add(new GameObj(initial+215+(50*i), y(ground_height + 150), false, cliffg_l_img,25,50));
+    else if(i == 1)
+        grounds.add(new GameObj(initial+215+(50*i), y(ground_height + 150), false, normalg_img,25,50));
+    else
+        grounds.add(new GameObj(initial+215+(50*i), y(ground_height + 150), false, cliffg_r_img,25,50));
+  }
   
-   int initial = 0;  
+  for(int i = 0; i < 3; ++i)
+        shapes.add(new GameObj(initial+220+(50*i), y(ground_height + 150 + 40), false, coin_img, 30, 30));
+  
+    shapes.add(new GameObj(initial + 415, y(ground_height + 30), false, fixed_box_img, 30, 30));
+    shapes.add(new GameObj(initial + 600, y(ground_height + 30), false, fixed_box_img, 30, 30));
+    
+    
+
+      
+}
+
+void scene_2(int offset){
+  
+   int initial = 0+offset;  
    for(int i=0; i<20;i++){
          if(i==0){
             grounds.add(new GameObj(initial+(50*i), y(ground_height), false, cliffg_l_img,100,50));
            continue;  
        }
         if(i == 7 || i ==8 || i == 14 || i==15){
-          grounds.add(new GameObj(initial+(50*i), y(ground_height), false, waterg_img,100,50));
+          grounds.add(new GameObj(initial+(50*i), y(ground_height-20), false, waterg_img,100,50));
           continue;
         }
         grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
     }
     
    for(int i=2; i<5; i++){
-     grounds.add(new GameObj(initial+(50*i), y(200), false, normalg_img,25,50));
+     grounds.add(new GameObj(initial+(50*i), y(200), false, normalg_img,50,50));
    }
+  
+  shapes.add(new GameObj(initial+(50*9), y(ground_height+30), false, coin_img,30,30, coin));
+  shapes.add(new GameObj(initial+(50*13), y(ground_height+30), false, coin_img,30,30, coin));
+   
+  shapes.add(new GameObj(initial+(50*2), y(230), false, coin_img,30,30, coin));
+  shapes.add(new GameObj(initial+(50*4-15), y(230), false, coin_img,30,30, coin));
+  shapes.add(new GameObj(initial+(50*5), y(ground_height+30), false, coin_img,30,30, coin));
+  
+  shapes.add(new GameObj(initial+(50*5), y(ground_height+30), false, coin_box_img,30,30, coinb));
+  shapes.add(new GameObj(initial+(50*2), y(230), false, coin_box_img,30,30, coinb));
+  shapes.add(new GameObj(initial+(50*4-15), y(230), false, coin_box_img,30,30, coinb));
+  shapes.add(new GameObj(initial+(50*18), y(ground_height+30), false, special_box_img,30,30, "to be random"));
+  shapes.add(new GameObj(initial+(50*3), y(230), false, special_box_img,30,30, "to be randomized"));
+ 
+  shapes.add(new GameObj(initial+(50*12), y(ground_height + 80), false, robot_img,85,65, "to be randomized"));
+  
 }
 
-void scene3(int initial){
+
+void scene_3(int offset){
+  int initial = 0+offset;
   for(int i=0; i < 5;i++)
       grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
   for(int i=5; i < 8;i++)
-      grounds.add(new GameObj(initial+(50*i), y(ground_height), false, waterg_img,100,50));
+      grounds.add(new GameObj(initial+(50*i), y(ground_height-20), false, waterg_img,100,50));
   for(int i=8; i < 15;i++)
       grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
   for(int i=15; i < 20;i++)
-      grounds.add(new GameObj(initial+(50*i), y(ground_height), false, waterg_img,100,50));
+      grounds.add(new GameObj(initial+(50*i), y(ground_height-20), false, waterg_img,100,50));
   for(int i=15; i < 18; i++)
-    grounds.add(new GameObj(initial+(50*i), y(ground_height)-200, false, normalg_img,100,50));
+    grounds.add(new GameObj(initial+(50*i), y(ground_height+150), false, normalg_img,50,50));
   for(int i=5; i < 12;i++)
-    grounds.add(new GameObj(initial+(50*i), y(ground_height)-350, false, normalg_img,100,50));
+    grounds.add(new GameObj(initial+(50*i), y(ground_height+250), false, normalg_img,50,50));
   for(int i=0; i < 3;i++)
-      grounds.add(new GameObj(initial+(50*i), y(ground_height)-250, false, normalg_img,100,50));
+      grounds.add(new GameObj(initial+(50*i), y(ground_height+200), false, normalg_img,50,50));
+  grounds.add(new GameObj(initial+(50*5-25), y(ground_height+125), false, normalg_img,50,60));
   
-  shapes.add(new GameObj(initial+(50* 10), y(ground_height)-80, false, hazard_img, 100, 50, "TODO INSERT TYPE NAME"));
-  shapes.add(new GameObj(initial+(40* 0), y(ground_height)-400, false, special_box_img, 40, 40, "TODO INSERT TYPE NAME"));
-  shapes.add(new GameObj(initial+(40* 1), y(ground_height)-400, false, special_box_img, 40, 40, "TODO INSERT TYPE NAME"));
-  shapes.add(new GameObj(initial+(40* 2), y(ground_height)-400, false, special_box_img, 40, 40, "TODO INSERT TYPE NAME"));
+  
+  shapes.add(new GameObj(initial+(50* 10), y(ground_height+80), false, hazard_img, 100, 50, "TODO INSERT TYPE NAME"));
+  shapes.add(new GameObj(initial+(40* 0), y(ground_height+300), false, special_box_img, 30, 30, "TODO INSERT TYPE NAME"));
+  shapes.add(new GameObj(initial+(40* 1), y(ground_height+300), false, special_box_img, 30, 30, "TODO INSERT TYPE NAME"));
+  shapes.add(new GameObj(initial+(40* 2), y(ground_height+300), false, special_box_img, 30, 30, "TODO INSERT TYPE NAME"));
       
 }
 
