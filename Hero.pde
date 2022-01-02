@@ -31,9 +31,9 @@ class Hero extends GameObj
         this.sh = _sh ;
     }
 
-    boolean is_touch_ground(){
-        for(GameObj obj : grounds )
-            if((obj.type == normalg || obj.type== floatg )&& this.is_intersect(obj,10 ) == Intersect.NORTH)
+    boolean is_touch_ground(List<GameObj> arr, List<GameObj> shapes){
+        for(GameObj obj : arr )
+            if((obj.type == normalg || obj.type== floatg)&& this.is_intersect(obj,10 ) == Intersect.NORTH)
                 return true;
             else
               obj.highlight = false;
@@ -62,10 +62,6 @@ class Hero extends GameObj
     // 
     public void jump_up()
     {
-        if(collidesSideWays(Intersect.SOUTH)){
-          drop_down();
-          return;
-        }
         this.move(0,-this.jr) ;
         this.change_photo(this.HeroImg[5][(this.currentFrame+1)%numFrames] ) ;
         this.set_jump_status(this.get_jump_status() - 1 ) ;
@@ -208,7 +204,7 @@ class Hero extends GameObj
             }
 
             //check if is not touch the groudnd drop down 
-            boolean touch_ground = this.is_touch_ground() ; 
+            boolean touch_ground = this.is_touch_ground(grounds, shapes) ; 
 
             if(touch_ground && !this.is_running){
 
@@ -263,6 +259,10 @@ class Hero extends GameObj
     {
         this.num_coins ++ ; 
     }
+    
+    public void inc_knives(){
+      this.knive ++;
+    }
 
     public void lose() {
         if(this.health > 0  )
@@ -274,6 +274,6 @@ class Hero extends GameObj
         this.is_dead = true ; 
         this.currentFrame = 0 ; 
     }
-
+    
 
 }

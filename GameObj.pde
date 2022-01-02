@@ -6,11 +6,16 @@ class GameObj {
     protected char dir ;
     protected float img_scale ;
     protected String type;
-    public boolean is_move , is_vis; 
+    public boolean is_move , is_vis = true; 
     protected GameObj index  ;
     boolean highlight = false;
     
-    
+    public GameObj(int _x , int _y , boolean _is_move ,boolean _is_vis, PImage img, int h , int w, String type){
+      
+     this(_x, _y, _is_move, img, h, w, type);
+     this.is_vis = _is_vis;
+      
+    }
     public GameObj(int _x , int _y , boolean _is_move , PImage img, int h , int w, String type)
     {
         this.set_coordintes(_x,_y ); 
@@ -163,8 +168,10 @@ class GameObj {
         // this.draw() ; 
     }
 
+ 
     public void draw()
     {
+        if(this.is_vis){
         if(this.get_dir() =='L' )
         {
             pushMatrix();
@@ -183,6 +190,8 @@ class GameObj {
             line(p[i].x, p[i].y, p[i-1].x, p[i-1].y);
         }
     } 
+    else{ ;}
+    }
     
     PVector[] objCorners(GameObj o){
       // top left, top right, bottom right, bottom left.
@@ -209,7 +218,7 @@ class GameObj {
     }
     
     public boolean breakble(){
-      String[] solid = new String[]{fixedb, coinb};
+      String[] solid = new String[]{fixedb};
       if(type != null){
         for(String b: solid)
           if(b.equals(type))

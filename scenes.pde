@@ -29,17 +29,17 @@ void scene_0(int offset){
     
     
     shapes.add(new GameObj(initial + 650, y(g_height + box_height), false, coin_img, box_height, box_width, coin));
-    shapes.add(new GameObj(initial + 650, y(g_height + box_height), false, coin_box_img, box_height, box_width, coinb));
+    //shapes.add(new GameObj(initial + 650, y(g_height + box_height), false, coin_box_img, box_height, box_width, coinb));
     shapes.add(new GameObj(initial + 650+box_width, y(g_height + box_height), false, coin_img, box_height, box_width, coin));
     //shapes.add(new GameObj(initial + 650+box_width, y(g_height + box_height), false, fixed_box_img, box_height, box_width));
-    shapes.add(new GameObj(initial + 650+2*box_width, y(g_height + box_height), false, coin_box_img, box_height, box_width, coinb));
+    //shapes.add(new GameObj(initial + 650+2*box_width, y(g_height + box_height), false, coin_box_img, box_height, box_width, coinb));
     
     
     shapes.add(new GameObj(initial + 650, y(g_y_offset + box_height), false, coin_img, box_height, box_width, coin));
-    shapes.add(new GameObj(initial + 650, y(g_y_offset + box_height), false, coin_box_img, box_height, box_width, coinb));
+    //shapes.add(new GameObj(initial + 650, y(g_y_offset + box_height), false, coin_box_img, box_height, box_width, coinb));
     shapes.add(new GameObj(initial + 650+box_width, y(g_y_offset + box_height), false, coin_img, box_height, box_width, coin));
     shapes.add(new GameObj(initial + 650+box_width, y(g_y_offset + box_height), false, fixed_box_img, box_height, box_width,fixedb));
-    shapes.add(new GameObj(initial + 650+2*box_width, y(g_y_offset + box_height), false, coin_box_img, box_height, box_width, coinb));
+    //shapes.add(new GameObj(initial + 650+2*box_width, y(g_y_offset + box_height), false, coin_box_img, box_height, box_width, coinb));
     
     
     
@@ -73,7 +73,11 @@ void scene_1(int offset){
   //    shapes.add(new GameObj(initial + 50 + (i * 45), y(g_y_offset + 40), false, coin_img, box_height, box_width, coin));
   
       grounds.add(new GameObj(initial+180, y(g_y_offset + 150), false, floating_big_img,40,200, floatg));
-  
+      shapes.add(new GameObj(initial+200, y(g_y_offset + 150+box_height), false, coin_img, box_height, box_width, coin));
+      
+      shapes.add(new GameObj(initial+250, y(g_y_offset + 150+box_height), false, coin_img, box_height, box_width, coin));
+      shapes.add(new GameObj(initial+300, y(g_y_offset + 150+box_height), false, coin_img, box_height, box_width, coin));
+      
   //for(int i = 0; i < 3; ++i)
   //      shapes.add(new GameObj(initial+220+(g_x_offset*i), y(g_y_offset + 150 + 40), false, coin_img, box_height, box_width, coin));
   
@@ -116,14 +120,14 @@ void scene_2(int offset){
   //shapes.add(new GameObj(initial+(g_x_offset*4-15), y(float_g_y + box_height), false, coin_img,box_height, box_width, coin));
   shapes.add(new GameObj(initial+(g_x_offset*5), y(g_y_offset+box_height), false, coin_img,box_height, box_width, coin));
   
-  shapes.add(new GameObj(initial+(g_x_offset*5), y(g_y_offset+box_height), false, coin_box_img,box_height, box_width, coinb));
-  shapes.add(new GameObj(initial+(g_x_offset*4), y(float_g_y + box_height), false, coin_box_img,box_height, box_width, coinb));
+  //shapes.add(new GameObj(initial+(g_x_offset*5), y(g_y_offset+box_height), false, coin_box_img,box_height, box_width, coinb));
+  //shapes.add(new GameObj(initial+(g_x_offset*4), y(float_g_y + box_height), false, coin_box_img,box_height, box_width, coinb));
   //shapes.add(new GameObj(initial+(g_x_offset*4-15), y(float_g_y + box_height), false, coin_box_img,box_height, box_width, coinb));
-  shapes.add(new GameObj(initial+(g_x_offset*18), y(g_y_offset+box_height), false, special_box_img,box_height, box_width, "to be random"));
-  shapes.add(new GameObj(initial+(g_x_offset*3-15), y(float_g_y + box_height), false, special_box_img,box_height, box_width, "to be randomized"));
+  shapes.add(new GameObj(initial+(g_x_offset*18), y(g_y_offset+box_height), false, knive_img,box_height, box_width, arrow));
+  shapes.add(new GameObj(initial+(g_x_offset*3-15), y(float_g_y + box_height), false, knive_img,box_height, box_width, arrow));
  
-   shapes.add(new GameObj(initial+(g_x_offset*12), y(g_y_offset + 80), false, robot_img,85,65, robot));
-  
+   //shapes.add(new GameObj(initial+(g_x_offset*12), y(g_y_offset + 80), false, robot_img,85,65, robot));
+    evils.add(new Evil(initial +(g_x_offset*12), y(g_y_offset +80), robotImage, 85, 65, screen_height, 1, robot));
 }
 
 
@@ -152,10 +156,12 @@ void scene_3(int offset){
           shapes.add(new GameObj(initial + 100 + (i * box_width), y(g_y_offset + box_height + (j * box_height)), false, fixed_box_img, box_height, box_width,fixedb));    
   }
   //grounds.add(new GameObj(initial+(195), y(g_y_offset+180), false, fixed_box_img,box_height, box_width));
+  
   evils.add( new Evil(initial + 400, y(g_y_offset +70), zombieImages, 85, 65, screen_height, 1, zombie));
+  shapes.add(new GameObj(initial + 700, y(g_y_offset + box_height), false,false, fixed_box_img, box_height, box_width, fixedb));
   //evils.add( new Evil(initial + 230, y(g_y_offset +70), robotImage, 85, 65, screen_height, 1, robot) );
   
-  shapes.add(new GameObj(initial+(g_x_offset*19), y(g_y_offset+box_height), false, special_box_img, box_height, box_width, "TODO INSERT TYPE NAME"));
+  shapes.add(new GameObj(initial+(g_x_offset*19), y(g_y_offset+box_height), false, knive_img, box_height, box_width, arrow));
 }
 
 
@@ -182,9 +188,9 @@ void scene_4(int offset){
   
   
   // evils[1] = new Evil(initial + 500, y(g_y_offset +70), hazard_img, 100, 50, screen_height, 1, hazard);
-  shapes.add(new GameObj(initial+(box_width* 0), y(g_y_offset+300), false, special_box_img, box_height, box_width, "TODO INSERT TYPE NAME"));
-  shapes.add(new GameObj(initial+(box_width* 1), y(g_y_offset+300), false, special_box_img, box_height, box_width, "TODO INSERT TYPE NAME"));
-  shapes.add(new GameObj(initial+(box_width* 2), y(g_y_offset+300), false, special_box_img, box_height, box_width, "TODO INSERT TYPE NAME"));
+  shapes.add(new GameObj(initial+(box_width* 0), y(g_y_offset+300), false, knive_img, box_height, box_width, arrow));
+  shapes.add(new GameObj(initial+(box_width* 1), y(g_y_offset+300), false, knive_img, box_height, box_width, arrow));
+  shapes.add(new GameObj(initial+(box_width* 2), y(g_y_offset+300), false, knive_img, box_height, box_width, arrow));
   
   shapes.add(new GameObj(initial + 500, y(g_y_offset), true, saw_img, g_height, g_height, saw));
 }
@@ -203,15 +209,20 @@ void scene_5(int offset){
     grounds.add(new GameObj(initial+(g_x_offset*i), y(g_y_offset), false, normalg_img,g_height,g_width,normalg));
   }
   
-  grounds.add(new GameObj(initial+(g_x_offset*13), y(g_y_offset+50), false, floating_small_img,floatg_height, floating_small_width,floatg));
-  grounds.add(new GameObj(initial+(g_x_offset*17), y(g_y_offset+100), false, floating_small_img,floatg_height, floating_small_width,floatg));
+  grounds.add(new GameObj(initial+(g_x_offset*12), y(g_y_offset+50), false, floating_small_img,floatg_height, floating_small_width,floatg));
+  grounds.add(new GameObj(initial+(g_x_offset*16), y(g_y_offset+100), false, floating_small_img,floatg_height, floating_small_width,floatg));
   
   
     grounds.add(new GameObj(initial+(g_x_offset*18), y(g_y_offset+150), false, floating_big_img,floatg_height, floatg_big_width,floatg));
-  
-  //evils.add(new Evil(initial + 250, y(g_y_offset +70), robotImage, 85, 65, screen_height, 1, robot));
-  //evils.add(new Evil(initial + 350, y(g_y_offset +70), robotImage, 85, 65, screen_height, 1, robot));
-  //evils.add(new Evil(initial + 450, y(g_y_offset +70), robotImage, 85, 65, screen_height, 1, robot));
+
+
+  shapes.add(new GameObj(initial + 50, y(g_y_offset + box_height), false,false, fixed_box_img, box_height, box_width, fixedb));
+
+  evils.add(new Evil(initial + 250, y(g_y_offset +70), robotImage, 85, 65, screen_height, 1, robot));
+  evils.add(new Evil(initial + 350, y(g_y_offset +70), robotImage, 85, 65, screen_height, 1, robot));
+  evils.add(new Evil(initial + 450, y(g_y_offset +70), robotImage, 85, 65, screen_height, 1, robot));
+    shapes.add(new GameObj(initial + 500, y(g_y_offset + box_height), false,false, fixed_box_img, box_height, box_width, fixedb));
+
   //shapes.add(new GameObj(initial+(g_x_offset*5), y(g_y_offset + 80), false, robot_img,85,65, "to be randomized"));
   //shapes.add(new GameObj(initial+(g_x_offset*7), y(g_y_offset + 80), false, robot_img,85,65, "to be randomized"));
   //shapes.add(new GameObj(initial+(g_x_offset*9), y(g_y_offset + 80), false, robot_img,85,65, "to be randomized"));

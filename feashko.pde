@@ -19,7 +19,10 @@ int numFrames = 9 ;
 int currentFrame = 0;
 
 int mario_jump_step = 25 ; // this step is * by 5 
-int time_between_fireball = 400 ; // this time is in millesec
+int time_between_fireball = 400 ; // this time is in milleseb
+
+boolean inc_coin = false;
+boolean inc_knive = false;
 
 boolean scene_0_drawn = false;
 boolean scene_1_drawn = false;
@@ -47,6 +50,7 @@ final String movableg = "movableg";
 final String saw = "saw";
 final String hazard = "hazard";
 final String fball = "fireball";
+final String arrow = "arrow";
 
 
 // fire ball 
@@ -98,7 +102,7 @@ PImage robot_img ,ninja_img, zombie_img, coin_img,
         cliffg_l_img, waterg_img, spikeg_img,
         movableg_big_img, movableg_small_img,
         fixed_box_img,floating_big_img,
-        floating_small_img;
+        floating_small_img, knive_img;
 
 
 
@@ -166,6 +170,7 @@ void setup(){
   fixed_box_img = loadImage("fixed_box.png");
   hazard_img = loadImage("Barrel.png");
   saw_img = loadImage("Saw.png");
+  knive_img = loadImage("data/ninja/Kunai.png");
   normalg_img = ground_tiles[2];
   cliffg_r_img = ground_tiles[3];
   cliffg_l_img = ground_tiles[1];
@@ -231,7 +236,7 @@ void game_intro(){
   imageMode(CENTER);
   image(sound_box_on, 50, 50);
   imageMode(CORNER);
-  if(mouseX > 50 && mouseX < 150 && mouseY > 50 && mouseY < 150){
+  if(mouseX >= 50 && mouseX<=100 && mouseY >=50 && mouseY<=100){
     if(mousePressed){
       image(sound_box_off, 50, 50);
       imageMode(CORNER);
@@ -262,26 +267,34 @@ void draw(){
         boolean f = true;
         GameObj a = it.next();
         
-        if(a.get_type() == coin){
-            if(ninjaHero.is_intersect(a,30) > 0  ){
-                 f = false;
-            }
+        if(a.get_type() == coin && ninjaHero.is_intersect(a,30) > 0  ){
+                 inc_coin = true;
+            
         }
-        if(f == false){
+       
+        else if(a.get_type() == arrow && ninjaHero.is_intersect(a,30) > 0){
+            
+                 inc_knive = true;
+        }
+        if(inc_coin == true || inc_knive==true){
             it.remove();
-            ninjaHero.inc_coins() ;
+
         }
+        if(inc_coin == true){
+            ninjaHero.inc_coins() ;
+            inc_coin = false;}
+        if(inc_knive == true){
+            ninjaHero.inc_knives() ;
+            inc_knive = false;}
     }
     
     int saw_num = 1;
     for(GameObj s: shapes){
         if(s.get_type() == saw){
-            draw_saw(s, saw_num);
+            draw_saw(s.get_x(), s.get_y(), s.img, saw_num,s.is_move);
             // if(ninjaHero.is_intersect(s) ){
             //     ninjaHero.dead() ;
             // }
-            println("saw_pos");
-            println(s.get_x(), s.get_y());
             saw_num += 3;
             continue;
         }
@@ -338,29 +351,29 @@ void draw_background(){
 }
 
 
-void draw_saw(GameObj o, int offset){
+void draw_saw(int x_pos, int y_pos, PImage img, int offset, boolean is_move){
     int initial = 1000 * offset;
     imageMode(CENTER);
     pushMatrix();
-    if(o.is_move == false)
-        translate(o.get_x() - 25, o.get_y());
+    if(is_move == false)
+        translate(x_pos - 25, y_pos);
     else
-      translate((o.get_x() - 25 + saw_motion), o.get_y());
+      translate((x_pos - 25 + saw_motion), y_pos);
     
     rotate(saw_angle);
-    image(o.get_image(), 0, 0, g_height, g_height);
+    image(img, 0, 0, g_height, g_height);
     popMatrix();
     imageMode(CORNER);
-    if(o.is_move == true){
-      if(o.get_x() - 25 <= initial + 500 && saw_draw_back == 0)
-            saw_draw_back = 1;
-      else if(o.get_x() - 25 >= initial + 700 && saw_draw_back == 1)
-            saw_draw_back = 0;  
-      if(saw_draw_back == 1)
-         o.set_x(o.get_x() + 1);
-      else
-          o.set_x(o.get_x() - 1);
-    }
+    
+    if(x_pos - 25 + saw_motion <= initial + 500 && saw_draw_back == 0)
+          saw_draw_back = 1;
+    else if(x_pos - 25 + saw_motion >= initial + 700 && saw_draw_back == 1)
+          saw_draw_back = 0;  
+    if(saw_draw_back == 1)
+        ++saw_motion;
+    else
+        --saw_motion;
+    
     saw_angle += 0.1;
 
 }
@@ -398,7 +411,7 @@ void draw_fire_ball()
     while(it.hasNext()){
         boolean f = true;
         FireBall a = it.next();
-        if(a.is_intersect(shapes,20) > 0 ) {
+        if(a.is_intersect(shapes,20) > 0) {
              f = false;
         }
         if(f == false)
@@ -414,13 +427,15 @@ void draw_fire_ball()
 void draw_evil()
 {
     for(Evil evil : evils)
-    {
+    {   Iterator<FireBall> it = fireBalls.iterator();
         if(evil != null){
-            for(FireBall ball : fireBalls){
+          while(it.hasNext()){
+                FireBall ball = it.next();
                 if(!evil.is_dead)
                     if( abs(Intersect.space_from_right(ball , evil   )) < 5 || abs(Intersect.space_from_left(ball , evil   )) < 5   ){
                     // if(evil.is_intersect(ball )){
-                        evil.kill() ;    
+                        evil.kill() ;  
+                        it.remove();
                     }
 
             }
@@ -581,7 +596,7 @@ void initi_photos ()
 
 void move_hero()
 {
-    boolean touch_ground = ninjaHero.is_touch_ground() ; 
+    boolean touch_ground = ninjaHero.is_touch_ground(grounds, shapes) ; 
     int obj_intersection =  ninjaHero.is_intersect(shapes , true )  ; 
 
     // jump 
