@@ -1,5 +1,7 @@
 // feashko production
 import java.util.*;
+import processing.sound.*;
+
 float angle = 0.0, saw_angle=0;
 int screen_width = 1000 ; 
 int screen_height = 600 ;
@@ -106,15 +108,24 @@ boolean isShiftPressed = false ,
         isLEFTPressed = false ,
         isDOWNPressed = false ,
         isSpacePressed = false ,
+        isEnterPressed = false,
         isCPressed = false ;
 boolean gameEnded = false;
 PFont pfont;
 
+PImage intro, sound_box_on, sound_box_off;
+
+SoundFile music, sword_hit, knife_hit;
+
 void setup(){
     size(1000,600);
     smooth();
-    frameRate(60);
+    frameRate(45);
     initi_photos() ;
+    
+    //intro font
+    intro_font = loadFont("data/Ravie-48.vlw");
+    textFont(intro_font);
     
     pfont = loadFont("data/Ravie-48.vlw");
     textFont(pfont);
@@ -123,8 +134,17 @@ void setup(){
     //(int _x , int _y , PImage[][] img , int _h , int _w , int _sh , int _step )
     // evils[0] = new Evil( 500 , y(g_height + 60 ) ,zombieImages , -1 , -1 ,screen_height  , 1 ) ;
     // evils.add( new Evil( initial + 230 , y(g_height + 60 ) ,zombieImages , -1 , -1 ,screen_height  , 1 )) ;
-
-  
+    //intro
+    intro = loadImage("data/intro.jpg");
+    intro.resize(1000, 600);
+    sound_box_on = loadImage("data/Button1.png");
+    sound_box_on.resize(100, 100);
+    
+    sound_box_off = loadImage("data/Button2.png");
+    sound_box_off.resize(100, 100);
+    //music
+    music = new SoundFile(this, "data/Ninja_back.mp3");
+    music.loop();
   //background
   background_g = loadImage("data/bg/BG/BG.png");
   moon = loadImage("moon.png");
@@ -203,11 +223,33 @@ void _translate()
     }
 }
 
+
+PFont intro_font; 
+void game_intro(){
+  background(intro);
+  imageMode(CENTER);
+  image(sound_box_on, 50, 50);
+  imageMode(CORNER);
+  if(mouseX > 50 && mouseX < 150 && mouseY > 50 && mouseY < 150){
+    if(mousePressed){
+      image(sound_box_off, 50, 50);
+      imageMode(CORNER);
+      music.pause();
+    }
+  }
+}
+
+int t = 0;
+
 void draw(){
     if(checkGameEnded()){
       endGame();
       return;
     }
+    if(t == 0){
+      startGame();
+      if(isEnterPressed){t++;}
+    }else{
     draw_background();
     _translate() ;
     draw_status(ninjaHero.health , ninjaHero.score  , ninjaHero.knive , ninjaHero.get_coins()) ; 
@@ -266,7 +308,7 @@ void draw(){
     else if(half_screen > screen_width*4 && half_screen < screen_width*5 && !scene_5_drawn){
       scene_5(screen_width*5);
       scene_5_drawn = true;}
-      
+    }
 } 
  
 void draw_status(int h , int score , int knives , int coins)
@@ -395,6 +437,7 @@ void keyPressed() {
     if (keyCode == RIGHT ) isRIGHTPressed = true;
     if (keyCode == LEFT ) isLEFTPressed = true;
     if (keyCode == DOWN ) isDOWNPressed = true;
+    if(keyCode == ENTER)isEnterPressed = true;
     if ( key == ' ' ) isSpacePressed = true  ;
     if ( key == 'c' ) isCPressed = true  ;
 }
@@ -404,6 +447,7 @@ void keyReleased() {
     if (keyCode == RIGHT ) isRIGHTPressed = false;
     if (keyCode == LEFT ) isLEFTPressed = false;
     if (keyCode == DOWN ) isDOWNPressed = false;
+    if(keyCode == ENTER)isEnterPressed = false;
     if ( key == ' ' ) isSpacePressed = false  ;
     if ( key == 'c' ) isCPressed = false  ;
 }
@@ -565,6 +609,8 @@ void move_hero()
 
     if (isCPressed){
         ninjaHero.hit() ;
+        sword_hit = new SoundFile(this, "data/sowrd_hit.wav");
+        sword_hit.play();
     }
 
     if (isShiftPressed){
@@ -573,6 +619,8 @@ void move_hero()
                 ninjaHero.last_knife = millis() ;
                 fireBalls.add(new FireBall(1 , ninjaHero.get_x() , ninjaHero.get_y() , fireBallImg , ninjaHero.get_dir())) ;
                 ninjaHero.throw_arrow() ;
+                knife_hit = new SoundFile(this, "knife_hit.wav");
+                knife_hit.play();
             }
         }
     }
@@ -585,6 +633,15 @@ void move_hero()
 boolean checkGameEnded(){
    return ninjaHero.health <= 0 || ninjaHero.get_y() > height;
 }
+
+void startGame(){
+  game_intro();
+  textSize(50);
+  fill(0);
+  textAlign(CENTER);
+   text("Fyashko production\nPress Enter to start", width/2, height/2); 
+}
+
 void endGame(){
   draw_background();
   textSize(40);
