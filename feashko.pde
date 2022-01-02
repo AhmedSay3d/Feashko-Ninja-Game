@@ -204,7 +204,7 @@ void _translate()
 }
 
 void draw(){
-    if(gameEnded){
+    if(checkGameEnded()){
       endGame();
       return;
     }
@@ -582,7 +582,9 @@ void move_hero()
 
 }
 
-
+boolean checkGameEnded(){
+   return ninjaHero.health <= 0 || ninjaHero.get_y() > height;
+}
 void endGame(){
   draw_background();
   textSize(40);
