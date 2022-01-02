@@ -361,7 +361,7 @@ void draw_saw(int x_pos, int y_pos, PImage img, int offset, boolean is_move){
       translate((x_pos - 25 + saw_motion), y_pos);
     
     rotate(saw_angle);
-    image(img, 0, 0, g_height, g_height);
+    image(o.get_image(), 0, 0, saw_dim, saw_dim);
     popMatrix();
     imageMode(CORNER);
     

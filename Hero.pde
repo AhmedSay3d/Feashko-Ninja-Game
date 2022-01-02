@@ -38,18 +38,18 @@ class Hero extends GameObj
             else
               obj.highlight = false;
               
-        for(GameObj obj : shapes){
-          if(obj.type == saw){
-            println("______________");
-            PVector[] p = obj.objCorners(obj);
-            for(PVector a : p)
-              println(String.format("%f %f", a.x, a.y));
-          }
-        }
+        //for(GameObj obj : shapes){
+        // println(String.format("hero: %d %d", get_x(), get_y()));
+        //  if(obj.type == saw){
+        //    println("______________");
+        //    PVector[] p = obj.objCorners(obj);
+        //    for(PVector a : p)
+        //      println(String.format("saw: %f %f", a.x, a.y));
+        //  }
+         
+        //}
         
-        for(GameObj obj : shapes)
-          if(obj.type == saw && this.is_intersect(obj, 8) != Intersect.NOCOLLISION)
-            this.health = 0;
+        
             
         for(GameObj obj : shapes)
           if(obj.breakble()==false&& this.is_intersect(obj, 8) == Intersect.NORTH)
@@ -175,6 +175,11 @@ class Hero extends GameObj
 
     public void draw(List<GameObj> objects_arr ,List<Evil> evils ,List<GameObj> grounds  )
     {
+        if(killedbysaw()){
+          health = 0;
+          return;
+        }
+          
         // check if it touch the
         if(!this.is_dead) 
         {
@@ -250,6 +255,19 @@ class Hero extends GameObj
         this.currentFrame = (this.currentFrame+1)%this.numFrames ; 
         super.draw() ;
         this.is_running= false ;
+    }
+    
+    boolean killedbysaw(){
+      for(GameObj obj : shapes){
+          if(obj.type == saw){
+            obj.highlight = true;
+          }
+          if(obj.type == saw && this.is_intersect(obj, 100) != Intersect.NOCOLLISION){
+            println("coll");
+            return true;
+          }
+        }
+        return false;
     }
 
     public int get_coins(){

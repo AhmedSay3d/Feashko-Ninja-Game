@@ -4,6 +4,7 @@ int g_x_offset = 50, g_y_offset = 0;
 int g_width = 50, g_height = 100;
 int box_width=50,box_height=50;
 int float_g_y = 200;
+int saw_dim = 200;
 int floatg_big_width=200, floating_small_width=100,floatg_width=50, floatg_height= 40;
 // scenes:
 void scene_0(int offset){
@@ -83,7 +84,7 @@ void scene_1(int offset){
   
     shapes.add(new GameObj(initial + 415, y(g_y_offset + box_height), false, fixed_box_img, box_height, box_width, fixedb));
     shapes.add(new GameObj(initial + 415 +  box_width + 200, y(g_y_offset + box_height), false, fixed_box_img, box_height, box_width, fixedb));
-    shapes.add(new GameObj(initial + 415 + 2 * box_width + 75, y(g_y_offset), false, saw_img, g_height, g_height, saw));
+    shapes.add(new GameObj(initial + 415 + 2 * box_width + 75, y(g_y_offset), false, saw_img, saw_dim, saw_dim, saw));
     
 }
 
@@ -192,7 +193,7 @@ void scene_4(int offset){
   shapes.add(new GameObj(initial+(box_width* 1), y(g_y_offset+300), false, knive_img, box_height, box_width, arrow));
   shapes.add(new GameObj(initial+(box_width* 2), y(g_y_offset+300), false, knive_img, box_height, box_width, arrow));
   
-  shapes.add(new GameObj(initial + 500, y(g_y_offset), true, saw_img, g_height, g_height, saw));
+  shapes.add(new GameObj(initial + 500, y(g_y_offset), true, saw_img, saw_dim, saw_dim, saw));
 }
 
 
