@@ -209,7 +209,7 @@ class GameObj {
     }
     
     public boolean breakble(){
-      String[] solid = new String[]{fixedb};
+      String[] solid = new String[]{fixedb, coinb};
       if(type != null){
         for(String b: solid)
           if(b.equals(type))

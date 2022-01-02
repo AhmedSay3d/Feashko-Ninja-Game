@@ -33,7 +33,7 @@ class Hero extends GameObj
 
     boolean is_touch_ground(){
         for(GameObj obj : grounds )
-            if((obj.type == normalg || obj.type== floatg)&& this.is_intersect(obj,10 ) == Intersect.NORTH)
+            if((obj.type == normalg || obj.type== floatg )&& this.is_intersect(obj,10 ) == Intersect.NORTH)
                 return true;
             else
               obj.highlight = false;
@@ -62,6 +62,10 @@ class Hero extends GameObj
     // 
     public void jump_up()
     {
+        if(collidesSideWays(Intersect.SOUTH)){
+          drop_down();
+          return;
+        }
         this.move(0,-this.jr) ;
         this.change_photo(this.HeroImg[5][(this.currentFrame+1)%numFrames] ) ;
         this.set_jump_status(this.get_jump_status() - 1 ) ;
