@@ -154,11 +154,11 @@ void setup(){
   spikeg_img = ground_tiles[18];
   
   scene_0(0);
-  scene_1(screen_width);
-  scene_2(screen_width*2);
-  scene_3(screen_width*3);
-  scene_4(screen_width*4);
-  scene_5(screen_width*5);
+  //scene_1(screen_width);
+  //scene_2(screen_width*2);
+  //scene_3(screen_width*3);
+  //scene_4(screen_width*4);
+  //scene_5(screen_width*5);
   
   
 }
