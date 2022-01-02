@@ -4,7 +4,7 @@ int g_x_offset = 50, g_y_offset = 0;
 int g_width = 50, g_height = 100;
 int box_width=50,box_height=50;
 int float_g_y = 200;
-int saw_dim = 200;
+int saw_dim = 150;
 int floatg_big_width=200, floating_small_width=100,floatg_width=50, floatg_height= 40;
 // scenes:
 void scene_0(int offset){

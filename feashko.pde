@@ -291,7 +291,7 @@ void draw(){
     int saw_num = 1;
     for(GameObj s: shapes){
         if(s.get_type() == saw){
-            draw_saw(s.get_x(), s.get_y(), s.img, saw_num,s.is_move);
+            draw_saw(s,saw_num);
             // if(ninjaHero.is_intersect(s) ){
             //     ninjaHero.dead() ;
             // }
@@ -351,31 +351,30 @@ void draw_background(){
 }
 
 
-void draw_saw(int x_pos, int y_pos, PImage img, int offset, boolean is_move){
+void draw_saw(GameObj o, int offset){
     int initial = 1000 * offset;
     imageMode(CENTER);
     pushMatrix();
-    if(is_move == false)
-        translate(x_pos - 25, y_pos);
+    if(o.is_move == false)
+        translate(o.get_x() - 25, o.get_y());
     else
-      translate((x_pos - 25 + saw_motion), y_pos);
+      translate((o.get_x() - 25 + saw_motion), o.get_y());
     
     rotate(saw_angle);
     image(o.get_image(), 0, 0, saw_dim, saw_dim);
     popMatrix();
     imageMode(CORNER);
-    
-    if(x_pos - 25 + saw_motion <= initial + 500 && saw_draw_back == 0)
-          saw_draw_back = 1;
-    else if(x_pos - 25 + saw_motion >= initial + 700 && saw_draw_back == 1)
-          saw_draw_back = 0;  
-    if(saw_draw_back == 1)
-        ++saw_motion;
-    else
-        --saw_motion;
-    
+    if(o.is_move == true){
+      if(o.get_x() - 25 <= initial + 500 && saw_draw_back == 0)
+            saw_draw_back = 1;
+      else if(o.get_x() - 25 >= initial + 700 && saw_draw_back == 1)
+            saw_draw_back = 0;  
+      if(saw_draw_back == 1)
+         o.set_x(o.get_x() + 1);
+      else
+          o.set_x(o.get_x() - 1);
+    }
     saw_angle += 0.1;
-
 }
 
 
@@ -657,9 +656,9 @@ boolean checkGameEnded(){
 void startGame(){
   game_intro();
   textSize(50);
-  fill(0);
+  fill(#683786);
   textAlign(CENTER);
-   text("Fyashko production\nPress Enter to start", width/2, height/2); 
+   text("Fyashko production\nIntroduces\nNinja Adventure\nPress Enter to start", width/2, height/2);
 }
 
 void endGame(){
