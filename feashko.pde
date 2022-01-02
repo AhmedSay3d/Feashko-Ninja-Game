@@ -180,6 +180,8 @@ void draw(){
     frameRate(60);
     draw_background();
     _translate() ;
+    draw_health(ninjaHero.health) ; 
+
     //println(shapes.size());
     Iterator<GameObj> it = shapes.iterator();
     
@@ -230,6 +232,11 @@ void draw(){
       
 } 
  
+void draw_health(int h)
+{
+    textSize(30);
+    text("health "+ h, half_screen+screen_height/2   , 120); 
+}
 
 void draw_background(){
   background(background_g);
@@ -381,6 +388,9 @@ void initi_photos ()
 
         String ninjThrowStr = "ninja/Throw__" + nf(i, 3) + ".png"; ninjThrow[i]= loadImage(ninjThrowStr); 
         ninjThrow[i].resize(parseInt(ninjThrow[i].width/img_ratio ),parseInt(ninjThrow[i].height/img_ratio ))  ;
+
+        String ninjDeadStr = "ninja/Dead__" + nf(i, 3) + ".png"; ninjDead[i]= loadImage(ninjDeadStr); 
+        ninjDead[i].resize(parseInt(ninjDead[i].width/img_ratio ),parseInt(ninjDead[i].height/img_ratio ))  ;
 
     }
   

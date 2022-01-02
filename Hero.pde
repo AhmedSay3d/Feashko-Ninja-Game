@@ -15,6 +15,8 @@ class Hero extends GameObj
     boolean is_running = false ; 
     int temp_x ;
     int verticalSpeed = 4;
+    int health = 100  ; 
+    boolean is_dead = false ; 
 
     PImage[][] HeroImg ;
 
@@ -167,71 +169,90 @@ class Hero extends GameObj
 
     public void draw(List<GameObj> objects_arr ,List<Evil> evils ,List<GameObj> grounds  )
     {
-        // check if it touch the 
-        int r , l ; 
-        for(Evil evil : evils)
+        // check if it touch the
+        if(!this.is_dead) 
         {
-            if(!evil.is_dead){
-                r = Intersect.space_from_right(this,evil) ;
-                l = Intersect.space_from_left(this,evil) ;
-                if(r != -1 && l != -1 ){
-                    if ((this.get_dir() == 'R' &&  ( r > -10 && r <= 50 )) || (this.get_dir() == 'L' &&( l > -20 && l < 20 ) )) 
-                    {
-                        if(this.get_hit_status() > 0 )
+            int r , l ; 
+            for(Evil evil : evils)
+            {
+                if(!evil.is_dead){
+                    r = Intersect.space_from_right(this,evil) ;
+                    l = Intersect.space_from_left(this,evil) ;
+                    if(r != -1 && l != -1 ){
+                        if ((this.get_dir() == 'R' &&  ( r > -10 && r <= 50 )) || (this.get_dir() == 'L' &&( l > -20 && l < 20 ) )) 
                         {
-                            print("win") ;
-                            evil.kill() ; 
-                        } else {
-                            print("lose");
+                            if(this.get_hit_status() > 0 )
+                            {
+                                print("win") ;
+                                evil.kill() ; 
+                            } else {
+                                evil.attack() ; 
+                                this.lose() ; 
+                                print("lose");
+                            }
                         }
                     }
+
+                }
+            }
+
+            //check if is not touch the groudnd drop down 
+            boolean touch_ground = this.is_touch_ground(grounds, shapes) ; 
+
+            if(touch_ground && !this.is_running){
+
+                // hit 
+                if(this.get_hit_status() > 0){
+                    this.hit(); 
+                    this.set_hit_status(this.get_hit_status()-1) ;
+                }
+                // throw 
+                else if (this.get_throw_status() > 0 ){
+                    this.throw_arrow(); 
+                    this.set_throw_status(this.get_throw_status()-1) ;
+                }
+                else {
+                    this.change_photo(this.HeroImg[4][this.currentFrame]) ;
                 }
 
             }
-        }
-
-        //check if is not touch the groudnd drop down 
-        boolean touch_ground = this.is_touch_ground(grounds, shapes) ; 
-
-        if(touch_ground && !this.is_running){
-
-            // hit 
-            if(this.get_hit_status() > 0){
-                this.hit(); 
-                this.set_hit_status(this.get_hit_status()-1) ;
+            else if (this.get_jump_status() > 0)
+            {
+                // hit 
+                if(this.get_hit_status() > 0)
+                    this.jump_up_attack();
+                // throw
+                if (this.get_throw_status() > 0 )
+                    this.jump_up_throw();
+                else {
+                    this.jump_up();
+                }
             }
-            // throw 
-            else if (this.get_throw_status() > 0 ){
-                this.throw_arrow(); 
-                this.set_throw_status(this.get_throw_status()-1) ;
+            else if(!touch_ground){
+                this.drop_down(); 
             }
-            else {
-                this.change_photo(this.HeroImg[4][this.currentFrame]) ;
-            }
-
+            
         }
-        else if (this.get_jump_status() > 0)
-        {
-            // hit 
-            if(this.get_hit_status() > 0)
-                this.jump_up_attack();
-            // throw
-            if (this.get_throw_status() > 0 )
-                this.jump_up_throw();
-            else {
-                this.jump_up();
-            }
+        else {
+            this.change_photo(this.HeroImg[2][this.currentFrame]) ; 
+            if(this.currentFrame ==this.numFrames -1)
+                noLoop() ;
         }
-        else if(!touch_ground){
-            this.drop_down(); 
-        }
-
-
         this.currentFrame = (this.currentFrame+1)%this.numFrames ; 
         super.draw() ;
-
-
         this.is_running= false ;
     }
+
+    public void lose() {
+        if(this.health > 0  )
+            this.health -= 1 ; 
+        else
+            this.dead();
+    }
+    public void dead() {
+        this.is_dead = true ; 
+        this.currentFrame = 0 ; 
+    }
+
 
 }
