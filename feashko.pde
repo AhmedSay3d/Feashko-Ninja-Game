@@ -1,3 +1,4 @@
+
 // feashko production
 import java.util.*;
 float angle = 0.0, saw_angle=0;
@@ -233,11 +234,7 @@ void draw(){
     for(GameObj s: shapes){
         if(s.get_type() == saw){
             draw_saw(s.get_x(), s.get_y(), s.img, 4);
-            // if(ninjaHero.is_intersect(s) ){
-            //     ninjaHero.dead() ;
-            // }
-
-            continue;
+              continue;
         }
         s.draw(); 
     }
