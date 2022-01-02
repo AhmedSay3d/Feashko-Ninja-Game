@@ -30,7 +30,7 @@ class Hero extends GameObj
 
     boolean is_touch_ground(List<GameObj> arr, List<GameObj> shapes){
         for(GameObj obj : arr ){
-            if(obj.type == normalg && this.is_intersect(obj,10 ) == Intersect.NORTH){
+            if((obj.type == normalg || obj.type== floatg)&& this.is_intersect(obj,10 ) == Intersect.NORTH){
                 //obj.highlight = true;
                 return true ;
               }

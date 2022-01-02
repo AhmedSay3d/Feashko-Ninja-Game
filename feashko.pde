@@ -4,11 +4,8 @@ float angle = 0.0, saw_angle=0;
 int screen_width = 1000 ; 
 int screen_height = 600 ;
 int half_screen = screen_width/2 ; 
-int ground_height = 50;
 int change_backgrond_sec = 30 ; // in 
 int time_between_knife = 200 ; 
-int box_width=50,box_height=50;
-int floatg_width=40, floatg_height = 40;
 int saw_motion = 0, saw_draw_back = 1;
 float img_ratio  = 7.26 ; 
 
@@ -20,6 +17,13 @@ int currentFrame = 0;
 
 int mario_jump_step = 25 ; // this step is * by 5 
 int time_between_fireball = 400 ; // this time is in millesec
+
+boolean scene_0_drawn = false;
+boolean scene_1_drawn = false;
+boolean scene_2_drawn = false;
+boolean scene_3_drawn = false;
+boolean scene_4_drawn = false;
+boolean scene_5_drawn = false;
 Mode activeMode;
 
 
@@ -31,13 +35,16 @@ final String coin = "coin";
 final String fireb  = "fireb";
 final String knifeb = "knifeb";
 final String coinb  = "coinb";
+final String fixedb = "fixedb";
 final String waterg  = "waterg";
 final String normalg = "normalg";
+final String floatg = "floatg";
 final String spikeg  = "spikeg";
 final String movableg = "movableg";
 final String saw = "saw";
 final String hazard = "hazard";
-final String fixedBox = "fixedBox";
+final String fball = "fireball";
+
 
 // fire ball 
 List<FireBall> fireBalls =new ArrayList<FireBall>();  
@@ -86,7 +93,8 @@ PImage robot_img ,ninja_img, zombie_img, coin_img,
         saw_img, normalg_img, cliffg_r_img,
         cliffg_l_img, waterg_img, spikeg_img,
         movableg_big_img, movableg_small_img,
-        fixed_box_img;
+        fixed_box_img,floating_big_img,
+        floating_small_img;
 
 
 
@@ -105,11 +113,11 @@ void setup(){
     smooth();
     initi_photos() ; 
 
-    ninjaHero = new Hero(ninjaImages , screen_height , drop_rate , jump_rate , 0 , y(ground_height + 50 )-100) ; 
+    ninjaHero = new Hero(ninjaImages , screen_height , drop_rate , jump_rate , 0 , y(g_height + 50 )-100) ; 
     //ninjaHero.highlight=true;
     //(int _x , int _y , PImage[][] img , int _h , int _w , int _sh , int _step )
-    // evils[0] = new Evil( 500 , y(ground_height + 60 ) ,zombieImages , -1 , -1 ,screen_height  , 1 ) ;
-    // evils.add( new Evil( initial + 230 , y(ground_height + 60 ) ,zombieImages , -1 , -1 ,screen_height  , 1 )) ;
+    // evils[0] = new Evil( 500 , y(g_height + 60 ) ,zombieImages , -1 , -1 ,screen_height  , 1 ) ;
+    // evils.add( new Evil( initial + 230 , y(g_height + 60 ) ,zombieImages , -1 , -1 ,screen_height  , 1 )) ;
 
   
   //background
@@ -135,16 +143,18 @@ void setup(){
   normalg_img = ground_tiles[2];
   cliffg_r_img = ground_tiles[3];
   cliffg_l_img = ground_tiles[1];
+  floating_big_img = ground_tiles[19];
+  floating_small_img = ground_tiles[20];
   waterg_img = ground_tiles[17];
   spikeg_img = ground_tiles[18];
-  movableg_big_img = ground_tiles[19];
-  movableg_small_img = ground_tiles[20];
   
   scene_0(0);
-  scene_1(screen_width);
-  scene_2(screen_width*2);
+  //scene_1(screen_width);
+  //scene_2(screen_width*2);
   //scene_3(screen_width*3);
-  //ground tiles 
+  //scene_4(screen_width*4);
+  //scene_5(screen_width*5);
+  ////ground tiles 
     
 
   
@@ -172,6 +182,7 @@ void draw(){
     _translate() ;
     //println(shapes.size());
     Iterator<GameObj> it = shapes.iterator();
+    
     while(it.hasNext()){
         boolean f = true;
         GameObj a = it.next();
@@ -201,6 +212,22 @@ void draw(){
     draw_evil() ;
     move_hero( ) ;
     ninjaHero.draw(shapes , evils , grounds) ;
+    if(half_screen >= screen_width/2 && half_screen < screen_width && !scene_1_drawn){
+      scene_1(screen_width);
+      scene_1_drawn = true;}
+    else if(half_screen > screen_width && half_screen < screen_width*2 && !scene_2_drawn){
+      scene_2(screen_width*2);
+      scene_2_drawn = true;}
+    else if(half_screen > screen_width*2 && half_screen < screen_width*3 && !scene_3_drawn){
+      scene_3(screen_width*3);
+      scene_3_drawn = true;}
+    else if(half_screen > screen_width*3 && half_screen < screen_width*4 && !scene_4_drawn){
+      scene_4(screen_width*4);
+      scene_4_drawn = true;}
+    else if(half_screen > screen_width*4 && half_screen < screen_width*5 && !scene_5_drawn){
+      scene_5(screen_width*5);
+      scene_5_drawn = true;}
+      
 } 
  
 
@@ -297,7 +324,7 @@ void draw_evil()
 
 
 int y(int y ){
-    return (screen_height - ground_height) - y ;
+    return (screen_height - g_height) - y ;
 }
 
 void keyPressed() {

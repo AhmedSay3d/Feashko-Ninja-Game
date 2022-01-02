@@ -11,19 +11,20 @@ static class Intersect{
       PVector[] pricorns = objCorners(pri);
       PVector[] seccorns = objCorners(sec);
       if(checkWestCollision(pricorns, seccorns, gap)){
-        print("W");
+        //print("W");
         return WEST;
       }
       if(checkEastCollision(pricorns, seccorns, gap)){
-        print("E");
+        //print("E");
         return EAST;
       }
       if(checkNorthCollision(pricorns, seccorns, gap)){
-        println("N");
+        //println("N");
         return NORTH;
       }
-      if(checkSouthCollision(pricorns, seccorns, gap))
-        return SOUTH;
+      if(checkSouthCollision(pricorns, seccorns, gap)){
+        //println("S");
+        return SOUTH;}
       return NOCOLLISION;
 
     }
@@ -35,8 +36,8 @@ static class Intersect{
       conds.add(pri[TOPRIGHT].x <= sec[TOPRIGHT].x); // topright x
       conds.add(pri[TOPRIGHT].x >= sec[TOPLEFT].x);
       conds.add(abs(pri[BOTTOMLEFT].y - sec[BOTTOMLEFT].y) <= gap); // bottom left.
-      if(!conds.contains(false))
-        println(String.format("WEST %f %f %f", pri[TOPRIGHT].x, sec[TOPLEFT].x, pri[TOPRIGHT].x));
+      //if(!conds.contains(false))
+        //println(String.format("WEST %f %f %f", pri[TOPRIGHT].x, sec[TOPLEFT].x, pri[TOPRIGHT].x));
       return !conds.contains(false);
     }
     
@@ -46,8 +47,8 @@ static class Intersect{
       conds.add(pri[TOPRIGHT].x > sec[TOPRIGHT].x); // top right x.
       conds.add(pri[TOPLEFT].x >= sec[TOPLEFT].x && pri[TOPLEFT].x < sec[TOPRIGHT].x);
       conds.add(abs(pri[BOTTOMLEFT].y - sec[BOTTOMLEFT].y) <= gap); 
-      if(!conds.contains(false))
-        println(String.format("EAST %f %f %f", pri[TOPLEFT].x, sec[TOPLEFT].x, sec[TOPRIGHT].x));
+      //if(!conds.contains(false))
+      //  println(String.format("EAST %f %f %f", pri[TOPLEFT].x, sec[TOPLEFT].x, sec[TOPRIGHT].x));
       return !conds.contains(false);
     }
     
@@ -57,7 +58,7 @@ static class Intersect{
        conds.add( pri[BOTTOMLEFT].y >= sec[TOPLEFT].y - gap/2);
        conds.add( pri[TOPLEFT].x >= sec[TOPLEFT].x && pri[TOPLEFT].x <= sec[TOPRIGHT].x); // top left in bound
        conds.add( pri[TOPRIGHT].x >= sec[TOPLEFT].x && pri[TOPRIGHT].x <= sec[TOPRIGHT].x); // top right in bound
-       println(String.format("NORTH %f %f %f", pri[BOTTOMLEFT].y, sec[TOPLEFT].y, sec[TOPRIGHT].y));
+       //println(String.format("NORTH %f %f %f", pri[BOTTOMLEFT].y, sec[TOPLEFT].y, sec[TOPRIGHT].y));
        return conds.get(0) && conds.get(1) && (conds.get(2) || conds.get(3));
     }
     

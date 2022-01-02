@@ -19,7 +19,7 @@ class FireBall extends GameObj
 
     public FireBall (int from , int x , int y, PImage img , char dir )
     {
-        super(x ,y ,true , img , 20 , 20 ) ;
+        super(x ,y ,true , img , 20 , 20 ,fball) ;
         this.set_from(from) ;
         this.set_dir(dir) ;
     }

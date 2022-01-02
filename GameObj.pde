@@ -10,10 +10,7 @@ class GameObj {
     protected GameObj index  ;
     boolean highlight = false;
     
-    public GameObj(int _x , int _y , boolean _is_move , PImage img, int h , int w)
-    {
-      this(_x, _y, _is_move, img, h, w, null);   
-    }
+    
     public GameObj(int _x , int _y , boolean _is_move , PImage img, int h , int w, String type)
     {
         this.set_coordintes(_x,_y ); 
