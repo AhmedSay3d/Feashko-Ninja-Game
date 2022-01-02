@@ -106,6 +106,10 @@ class GameObj {
     {
         return this.is_intersect(objects_array , false ) ;
     }
+    int is_intersect (List<GameObj> objects_array ,int gap)
+    {
+        return this.is_intersect(objects_array , false ,gap) ;
+    }
 
     int is_intersect(GameObj obj){
         if(obj != null)
@@ -126,8 +130,12 @@ class GameObj {
         else 
             return -1 ; 
     }
+    int is_intersect (List<GameObj> objects_array ,boolean debug )
+    {
+       return this.is_intersect(objects_array , debug , 0 ) ;
+    } 
 
-    int is_intersect (List<GameObj> objects_array ,boolean debug ) 
+    int is_intersect (List<GameObj> objects_array ,boolean debug , int gap) 
     {
         int temp =-1 ;
         if(objects_array != null)
@@ -135,7 +143,7 @@ class GameObj {
             {
                 if(obj != null)
                 {
-                    temp = Intersect.check(this , obj , debug , 0) ;
+                    temp = Intersect.check(this , obj , debug , gap) ;
                     if (temp > 0 )
                     {
                         this.index = obj ; 

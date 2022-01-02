@@ -46,10 +46,10 @@ class Evil extends GameObj
     {
        
         if(!this.is_dead){
-             int temp = this.is_intersect(objects_arr) ;
-            if( temp == 3 )
+            int temp = this.is_intersect(objects_arr,20) ;
+            if( temp == Intersect.WEST )
                 this.set_dir('L');
-            if( temp == 4 )
+            if( temp == Intersect.EAST )
                 this.set_dir('R') ;
             if(this.attack_status == 0 )
             {
@@ -64,10 +64,6 @@ class Evil extends GameObj
             }
             else 
             {
-                print("attack ")  ;
-                println(this.currentFrame) ;
-                // println(this.numFrames[0]) ; 
-                // println (this.images[0][(this.currentFrame)]) ;
                 this.change_photo(this.images[0][round(this.currentFrame)]) ; 
                 this.currentFrame = (this.currentFrame+0.3)%this.numFrames[0] ; 
                 this.attack_status -- ;
