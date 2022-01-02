@@ -181,6 +181,8 @@ class GameObj {
           PVector[] p = objCorners(this);
           for(int i=1; i<4; i++)
             line(p[i].x, p[i].y, p[i-1].x, p[i-1].y);
+          line(p[0].x, p[0].y, p[2].x, p[2].y);
+          line(p[1].x, p[1].y, p[3].x, p[3].y);
         }
     } 
     

@@ -1,5 +1,5 @@
 static class Intersect{
-    static final int  NORTH =0, EAST = 1, SOUTH = 2, WEST = 3, NOCOLLISION = -1,
+    static final int  NORTH =0, EAST = 1, SOUTH = 2, WEST = 3, INSIDE = 4, NOCOLLISION = -1,
      TOPLEFT=0 , TOPRIGHT=1, BOTTOMRIGHT=2, BOTTOMLEFT=3; 
 
     static int check(GameObj pri, GameObj sec)
@@ -28,12 +28,19 @@ static class Intersect{
         //println("N");
         return NORTH;
       }
+ 
       if(checkSouthCollision(pricorns, seccorns, gap)){
         //println("S");
-        return SOUTH;}
+        return SOUTH;
+      }
+      
+      if(checkInsideCollision(pricorns, seccorns, gap))
+        return INSIDE;
+        
       return NOCOLLISION;
 
     }
+    
     
     static boolean checkWestCollision(PVector[] pri, PVector[] sec, int gap){
       ArrayList<Boolean> conds = new ArrayList<Boolean>();
@@ -66,6 +73,14 @@ static class Intersect{
     static  boolean checkSouthCollision(PVector[] pri, PVector[] sec, int gap){
       return checkNorthCollision(sec, pri, gap);
     }
+    
+    static boolean checkInsideCollision(PVector[] pri, PVector[] sec, int gap){
+         ArrayList<Boolean> conds = new ArrayList<Boolean>();
+         conds.add(pri[TOPLEFT].x >= sec[TOPLEFT].x);
+         conds.add(pri[TOPRIGHT].x <= sec[TOPRIGHT].x);
+         conds.add(abs(pri[TOPLEFT].y - sec[TOPLEFT].y) <= gap);
+         return !conds.contains(false);
+     }
     
     static PVector objCenterPoint(GameObj o){
       int x = o.get_x() + o.get_width()/2;

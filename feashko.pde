@@ -280,8 +280,6 @@ void draw(){
             // if(ninjaHero.is_intersect(s) ){
             //     ninjaHero.dead() ;
             // }
-            println("saw_pos");
-            println(s.get_x(), s.get_y());
             saw_num += 3;
             continue;
         }
@@ -348,7 +346,7 @@ void draw_saw(GameObj o, int offset){
       translate((o.get_x() - 25 + saw_motion), o.get_y());
     
     rotate(saw_angle);
-    image(o.get_image(), 0, 0, g_height, g_height);
+    image(o.get_image(), 0, 0, saw_dim, saw_dim);
     popMatrix();
     imageMode(CORNER);
     if(o.is_move == true){
