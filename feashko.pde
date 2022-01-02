@@ -581,7 +581,7 @@ void initi_photos ()
 
 void move_hero()
 {
-    boolean touch_ground = ninjaHero.is_touch_ground(grounds, shapes) ; 
+    boolean touch_ground = ninjaHero.is_touch_ground() ; 
     int obj_intersection =  ninjaHero.is_intersect(shapes , true )  ; 
 
     // jump 

@@ -31,8 +31,8 @@ class Hero extends GameObj
         this.sh = _sh ;
     }
 
-    boolean is_touch_ground(List<GameObj> arr, List<GameObj> shapes){
-        for(GameObj obj : arr )
+    boolean is_touch_ground(){
+        for(GameObj obj : grounds )
             if((obj.type == normalg || obj.type== floatg)&& this.is_intersect(obj,10 ) == Intersect.NORTH)
                 return true;
             else
@@ -204,7 +204,7 @@ class Hero extends GameObj
             }
 
             //check if is not touch the groudnd drop down 
-            boolean touch_ground = this.is_touch_ground(grounds, shapes) ; 
+            boolean touch_ground = this.is_touch_ground() ; 
 
             if(touch_ground && !this.is_running){
 
