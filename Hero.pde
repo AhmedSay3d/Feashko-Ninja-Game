@@ -10,6 +10,7 @@ class Hero extends GameObj
     int currentFrame = 0 ; 
     int num_arrow ;
     int knive = 3  ;
+    int score = 0  ;
     int last_knife = 0 ;
     int num_coins = 0;
     boolean is_running = false ; 
@@ -185,6 +186,7 @@ class Hero extends GameObj
                             {
                                 print("win") ;
                                 evil.kill() ; 
+                                this.score += 10 ; 
                             } else {
                                 evil.attack() ; 
                                 this.lose() ; 
@@ -229,6 +231,8 @@ class Hero extends GameObj
                 }
             }
             else if(!touch_ground){
+                if(this.get_y() >= this.sh )
+                    this.dead() ; 
                 this.drop_down(); 
             }
             
@@ -241,6 +245,14 @@ class Hero extends GameObj
         this.currentFrame = (this.currentFrame+1)%this.numFrames ; 
         super.draw() ;
         this.is_running= false ;
+    }
+
+    public int get_coins(){
+        return this.num_coins ; 
+    }
+    public void inc_coins()
+    {
+        this.num_coins ++ ; 
     }
 
     public void lose() {

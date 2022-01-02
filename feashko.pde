@@ -43,6 +43,7 @@ final String fixedBox = "fixedBox";
 List<FireBall> fireBalls =new ArrayList<FireBall>();  
 
 List<GameObj> shapes = new ArrayList<GameObj>();
+List<GameObj> coins = new ArrayList<GameObj>();
 List<GameObj> grounds = new ArrayList<GameObj>();
 Hero ninjaHero ;  
 List<Evil> evils = new ArrayList<Evil>();
@@ -143,6 +144,9 @@ void setup(){
   scene_0(0);
   scene_1(screen_width);
   scene_2(screen_width*2);
+//   scene_3(screen_width*3);
+//   scene_4(screen_width*4);
+//   scene_5(screen_width*5);
   //scene_3(screen_width*3);
   //ground tiles 
     
@@ -170,7 +174,7 @@ void draw(){
     frameRate(60);
     draw_background();
     _translate() ;
-    draw_health(ninjaHero.health) ; 
+    draw_status(ninjaHero.health , ninjaHero.score  , ninjaHero.knive , ninjaHero.get_coins()) ; 
 
     //println(shapes.size());
     Iterator<GameObj> it = shapes.iterator();
@@ -179,17 +183,23 @@ void draw(){
         GameObj a = it.next();
         
         if(a.get_type() == coin){
-            if(ninjaHero.is_intersect(a) > 0 ){
+            if(ninjaHero.is_intersect(a,30) > 0  ){
                  f = false;
             }
         }
-        if(f == false)
+        if(f == false){
             it.remove();
+            ninjaHero.inc_coins() ;
+        }
     }
     
     for(GameObj s: shapes){
         if(s.get_type() == saw){
             draw_saw(s.get_x(), s.get_y(), s.img, 4);
+            // if(ninjaHero.is_intersect(s) ){
+            //     ninjaHero.dead() ;
+            // }
+
             continue;
         }
         s.draw(); 
@@ -199,16 +209,20 @@ void draw(){
        g.draw();
     }
     
+    // draw_coin() ; 
     draw_fire_ball() ; 
     draw_evil() ;
     move_hero( ) ;
     ninjaHero.draw(shapes , evils , grounds) ;
 } 
  
-void draw_health(int h)
+void draw_status(int h , int score , int knives , int coins)
 {
     textSize(30);
-    text("health "+ h, half_screen+screen_height/2   , 120); 
+    text("health "+ h, half_screen+screen_height/2   , 70); 
+    text("score "+ score, half_screen+screen_height/2   , 100); 
+    text("knives "+ knives, half_screen+screen_height/2   , 130); 
+    text("coins "+ coins, half_screen+screen_height/2   , 160); 
 }
 
 void draw_background(){
@@ -251,35 +265,49 @@ void draw_saw(int x_pos, int y_pos, PImage img, int offset){
 }
 
 
-void draw_coin(int x_pos, int y_pos, PImage img, int offs){
-    offs *= 1000;
-    pushMatrix();
-    translate(x_pos, 100);
-    imageMode(CENTER);
-    rotate(angle);
-    image(moon, 0, 0);
-    angle += 0.02;
-    popMatrix();
-    imageMode(CORNER);
-}
+// void draw_coin(){
+//        pushMatrix();
+//         imageMode(CENTER);
+//     for(GameObj coin : coins)
+//     {
+//         // pushMatrix();
+//         translate(coin.get_x(), coin.get_y());
+//         rotate(angle);
+//         coin.draw() ; 
+
+//         // popMatrix();
+//         // imageMode(CORNER);
+//     }
+//     angle += 0.02;
+//     // offs *= 1000;
+//     // pushMatrix();
+//     // translate(x_pos, 100);
+//     // imageMode(CENTER);
+//     // rotate(angle);
+//     // image(moon, 0, 0);
+//     // angle += 0.02;
+//     popMatrix();
+//     imageMode(CORNER);
+// }
 
 void draw_fire_ball()
 {
-    for(FireBall ball : fireBalls){
-        if(ball != null){
-            if(ball.is_intersect(shapes) > 0 ) 
-            {
 
-            }
-            else
-            {
-                ball.update_linear();
-                ball.draw() ;
-            }
-    
+    Iterator<FireBall> it = fireBalls.iterator();
+    while(it.hasNext()){
+        boolean f = true;
+        FireBall a = it.next();
+        if(a.is_intersect(shapes,20) > 0 ) {
+             f = false;
         }
-
+        if(f == false)
+            it.remove();
+        else {
+            a.update_linear();
+            a.draw() ;
+        }
     }
+
 }
 
 void draw_evil()
@@ -287,12 +315,12 @@ void draw_evil()
     for(Evil evil : evils)
     {
         if(evil != null){
-
             for(FireBall ball : fireBalls){
-                if( abs(Intersect.space_from_right(ball , evil   )) < 5 || abs(Intersect.space_from_left(ball , evil   )) < 5   ){
-                    evil.kill() ;    
-                    // fireBalls.remove(ball) ;
-                }
+                if(!evil.is_dead)
+                    if( abs(Intersect.space_from_right(ball , evil   )) < 5 || abs(Intersect.space_from_left(ball , evil   )) < 5   ){
+                    // if(evil.is_intersect(ball )){
+                        evil.kill() ;    
+                    }
 
             }
 

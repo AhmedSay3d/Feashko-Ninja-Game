@@ -12,7 +12,7 @@ void scene_0(int offset){
     shapes.add(new GameObj(initial + 370, y(ground_height + box_height), false, fixed_box_img, box_height, box_width,fixedBox));
     shapes.add(new GameObj(initial + 370, y(ground_height + box_height + box_height), false, fixed_box_img, box_height, box_width,fixedBox));    
    
-    evils.add( new Evil(initial + 230, y(ground_height +70), zombieImages, 85, 65, screen_height, 1, zombie) );
+    evils.add( new Evil(initial + 230, y(ground_height +70), zombieImages, -1, -1, screen_height, 1, zombie) );
     
     
     shapes.add(new GameObj(initial + 650, y(ground_height + box_height), false, coin_img, box_height, box_width, coin));

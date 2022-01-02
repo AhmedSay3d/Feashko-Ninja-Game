@@ -17,15 +17,15 @@ static class Intersect{
       PVector[] pricorns = objCorners(pri);
       PVector[] seccorns = objCorners(sec);
       if(checkWestCollision(pricorns, seccorns, gap)){
-        print("W");
+        // print("W");
         return WEST;
       }
       if(checkEastCollision(pricorns, seccorns, gap)){
-        print("E");
+        // print("E");
         return EAST;
       }
       if(checkNorthCollision(pricorns, seccorns, gap)){
-        println("N");
+        // println("N");
         return NORTH;
       }
       if(checkSouthCollision(pricorns, seccorns, gap))
