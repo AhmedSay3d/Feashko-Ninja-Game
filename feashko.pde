@@ -105,14 +105,18 @@ boolean isShiftPressed = false ,
         isLEFTPressed = false ,
         isDOWNPressed = false ,
         isSpacePressed = false ,
-        isCPressed = false ; 
-      
+        isCPressed = false ;
+boolean gameEnded = false;
+PFont pfont;
 
 void setup(){
     size(1000,600);
     smooth();
-    initi_photos() ; 
-
+    frameRate(60);
+    initi_photos() ;
+    
+    pfont = loadFont("data/Ravie-48.vlw");
+    textFont(pfont);
     ninjaHero = new Hero(ninjaImages , screen_height , drop_rate , jump_rate , 0 , y(g_height + 50 )-100) ; 
     //ninjaHero.highlight=true;
     //(int _x , int _y , PImage[][] img , int _h , int _w , int _sh , int _step )
@@ -149,18 +153,40 @@ void setup(){
   spikeg_img = ground_tiles[18];
   
   scene_0(0);
-  //scene_1(screen_width);
-  //scene_2(screen_width*2);
-  //scene_3(screen_width*3);
-  //scene_4(screen_width*4);
-  //scene_5(screen_width*5);
-  ////ground tiles 
-    
-
+  scene_1(screen_width);
+  scene_2(screen_width*2);
+  scene_3(screen_width*3);
+  scene_4(screen_width*4);
+  scene_5(screen_width*5);
+  
   
 }
 
-
+void randomScene(int idx){
+  int initial = idx * screen_width;
+  int sceneidx = int(random(0,6));
+  switch(sceneidx){
+    case 0:
+      scene_0(initial);
+      break;
+    case 1:
+      scene_1(initial);
+      break;
+    case 2:
+      scene_2(initial);
+      break;
+    case 3:
+      scene_3(initial);
+      break;
+   case 4:
+      scene_4(initial);
+      break;
+   case 5:
+      scene_5(initial);
+      break;
+  }
+  
+}
 
 
 void _translate()
@@ -177,11 +203,14 @@ void _translate()
 }
 
 void draw(){
-    frameRate(60);
+    if(gameEnded){
+      endGame();
+      return;
+    }
     draw_background();
     _translate() ;
     draw_health(ninjaHero.health) ; 
-
+    
     //println(shapes.size());
     Iterator<GameObj> it = shapes.iterator();
     
@@ -234,8 +263,9 @@ void draw(){
  
 void draw_health(int h)
 {
+    fill(0);
     textSize(30);
-    text("health "+ h, half_screen+screen_height/2   , 120); 
+    text("HP: "+ h, half_screen+screen_height/2-40, 120); 
 }
 
 void draw_background(){
@@ -525,4 +555,12 @@ void move_hero()
 //   println("ok");
 //   ninjaHero.draw(ninjaImages , shapes , evils) ;
 
+}
+
+
+void endGame(){
+  draw_background();
+  textSize(40);
+  textAlign(CENTER);
+  text("BETTER LUCK NEXT TIME", width/2, height/2);
 }

@@ -31,24 +31,17 @@ class Hero extends GameObj
     }
 
     boolean is_touch_ground(List<GameObj> arr, List<GameObj> shapes){
-        for(GameObj obj : arr ){
-            if((obj.type == normalg || obj.type== floatg)&& this.is_intersect(obj,10 ) == Intersect.NORTH){
-                //obj.highlight = true;
-                return true ;
-              }
+        for(GameObj obj : arr )
+            if((obj.type == normalg || obj.type== floatg)&& this.is_intersect(obj,10 ) == Intersect.NORTH)
+                return true;
             else
               obj.highlight = false;
-        }
-        //for(GameObj s: shapes)
-          //print(String.format("%s ", s.get_type()));
-        //println("");
-        for(GameObj obj : shapes){ 
-          if(this.is_intersect(obj, 8) == Intersect.NORTH){
-            //obj.highlight = true;
+        
+        
+        for(GameObj obj : shapes)
+          if(obj.breakble()==false&& this.is_intersect(obj, 8) == Intersect.NORTH)
             return true;
-          }
-          //else obj.highlight = false;
-        }
+        
         return false ; 
     }
 

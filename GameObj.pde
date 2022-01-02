@@ -199,5 +199,15 @@ class GameObj {
     {
         this.dir = _dir ;
     }
+    
+    public boolean breakble(){
+      String[] solid = new String[]{fixedb};
+      if(type != null){
+        for(String b: solid)
+          if(b.equals(type))
+            return false;
+      }
+      return true;
+    }
 
 }

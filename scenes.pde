@@ -25,11 +25,9 @@ void scene_0(int offset){
     shapes.add(new GameObj(initial + 370, y(g_y_offset + box_height), false, fixed_box_img, box_height, box_width,fixedb));
     shapes.add(new GameObj(initial + 370, y(g_y_offset + box_height*2), false, fixed_box_img, box_height, box_width,fixedb));    
    
-<<<<<<< HEAD
-    //evils.add( new Evil(initial + 230, y(g_y_offset +70), zombieImages, 85, 65, screen_height, 1, zombie) );
-=======
-    evils.add( new Evil(initial + 230, y(ground_height +70), zombieImages, 85, 65, screen_height, 1, zombie) );
->>>>>>> 4cfc85f69a699983c2022c20ec0c48b0f86e02c7
+
+    evils.add( new Evil(initial + 230, y(g_y_offset +70), zombieImages, 85, 65, screen_height, 1, zombie) );
+
     
     
     shapes.add(new GameObj(initial + 650, y(g_y_offset + box_height), false, coin_img, box_height, box_width, coin));
@@ -149,7 +147,7 @@ void scene_3(int offset){
   }
   //grounds.add(new GameObj(initial+(195), y(g_y_offset+180), false, fixed_box_img,box_height, box_width));
   evils.add( new Evil(initial + 400, y(g_y_offset +70), zombieImages, 85, 65, screen_height, 1, zombie));
-  evils.add( new Evil(initial + 230, y(g_y_offset +70), robotImage, 85, 65, screen_height, 1, robot) );
+  //evils.add( new Evil(initial + 230, y(g_y_offset +70), robotImage, 85, 65, screen_height, 1, robot) );
   
   shapes.add(new GameObj(initial+(g_x_offset*19), y(g_y_offset+box_height), false, special_box_img, box_height, box_width, "TODO INSERT TYPE NAME"));
 }
@@ -206,9 +204,9 @@ void scene_5(int offset){
   
     grounds.add(new GameObj(initial+(g_x_offset*18), y(g_y_offset+150), false, floating_big_img,floatg_height, floatg_big_width,floatg));
   
-  evils.add(new Evil(initial + 250, y(g_y_offset +70), robotImage, 85, 65, screen_height, 1, robot));
-  evils.add(new Evil(initial + 350, y(g_y_offset +70), robotImage, 85, 65, screen_height, 1, robot));
-  evils.add(new Evil(initial + 450, y(g_y_offset +70), robotImage, 85, 65, screen_height, 1, robot));
+  //evils.add(new Evil(initial + 250, y(g_y_offset +70), robotImage, 85, 65, screen_height, 1, robot));
+  //evils.add(new Evil(initial + 350, y(g_y_offset +70), robotImage, 85, 65, screen_height, 1, robot));
+  //evils.add(new Evil(initial + 450, y(g_y_offset +70), robotImage, 85, 65, screen_height, 1, robot));
   //shapes.add(new GameObj(initial+(g_x_offset*5), y(g_y_offset + 80), false, robot_img,85,65, "to be randomized"));
   //shapes.add(new GameObj(initial+(g_x_offset*7), y(g_y_offset + 80), false, robot_img,85,65, "to be randomized"));
   //shapes.add(new GameObj(initial+(g_x_offset*9), y(g_y_offset + 80), false, robot_img,85,65, "to be randomized"));
