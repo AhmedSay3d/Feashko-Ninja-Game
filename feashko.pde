@@ -1,3 +1,4 @@
+
 // feashko production
 import java.util.*;
 import processing.sound.*;
@@ -272,13 +273,14 @@ void draw(){
         }
     }
     
+    int saw_num = 1;
     for(GameObj s: shapes){
         if(s.get_type() == saw){
-            draw_saw(s.get_x(), s.get_y(), s.img, 4);
+            draw_saw(s.get_x(), s.get_y(), s.img, saw_num,s.is_move);
             // if(ninjaHero.is_intersect(s) ){
             //     ninjaHero.dead() ;
             // }
-
+            saw_num += 3;
             continue;
         }
         s.draw(); 
@@ -334,22 +336,23 @@ void draw_background(){
 }
 
 
-void draw_saw(int x_pos, int y_pos, PImage img, int offset){
+void draw_saw(int x_pos, int y_pos, PImage img, int offset, boolean is_move){
+    int initial = 1000 * offset;
     imageMode(CENTER);
     pushMatrix();
-    if(offset == 0)
+    if(is_move == false)
         translate(x_pos - 25, y_pos);
-    else{
-      translate( (x_pos - 25 + saw_motion), y_pos);
-    }
+    else
+      translate((x_pos - 25 + saw_motion), y_pos);
+    
     rotate(saw_angle);
-    image(img, 0, 0, 50, 50);
+    image(img, 0, 0, g_height, g_height);
     popMatrix();
     imageMode(CORNER);
     
-    if(x_pos - 25 + saw_motion <= 500 && saw_draw_back == 0)
+    if(x_pos - 25 + saw_motion <= initial + 500 && saw_draw_back == 0)
           saw_draw_back = 1;
-    else if(x_pos - 25 + saw_motion >= 650 && saw_draw_back == 1)
+    else if(x_pos - 25 + saw_motion >= initial + 700 && saw_draw_back == 1)
           saw_draw_back = 0;  
     if(saw_draw_back == 1)
         ++saw_motion;

@@ -37,8 +37,20 @@ class Hero extends GameObj
                 return true;
             else
               obj.highlight = false;
+              
+        for(GameObj obj : shapes){
+          if(obj.type == saw){
+            println("______________");
+            PVector[] p = obj.objCorners(obj);
+            for(PVector a : p)
+              println(String.format("%f %f", a.x, a.y));
+          }
+        }
         
-        
+        for(GameObj obj : shapes)
+          if(obj.type == saw && this.is_intersect(obj, 8) != Intersect.NOCOLLISION)
+            this.health = 0;
+            
         for(GameObj obj : shapes)
           if(obj.breakble()==false&& this.is_intersect(obj, 8) == Intersect.NORTH)
             return true;

@@ -78,8 +78,9 @@ void scene_1(int offset){
   //      shapes.add(new GameObj(initial+220+(g_x_offset*i), y(g_y_offset + 150 + 40), false, coin_img, box_height, box_width, coin));
   
     shapes.add(new GameObj(initial + 415, y(g_y_offset + box_height), false, fixed_box_img, box_height, box_width, fixedb));
-    shapes.add(new GameObj(initial + 415+box_width, y(g_y_offset + box_height), false, fixed_box_img, box_height, box_width, fixedb));
-    shapes.add(new GameObj(initial + 415+2*box_width, y(g_y_offset), false, saw_img, 50, 50, saw));
+    shapes.add(new GameObj(initial + 415 +  box_width + 200, y(g_y_offset + box_height), false, fixed_box_img, box_height, box_width, fixedb));
+    shapes.add(new GameObj(initial + 415 + 2 * box_width + 75, y(g_y_offset), false, saw_img, g_height, g_height, saw));
+    
 }
 
 
@@ -185,8 +186,7 @@ void scene_4(int offset){
   shapes.add(new GameObj(initial+(box_width* 1), y(g_y_offset+300), false, special_box_img, box_height, box_width, "TODO INSERT TYPE NAME"));
   shapes.add(new GameObj(initial+(box_width* 2), y(g_y_offset+300), false, special_box_img, box_height, box_width, "TODO INSERT TYPE NAME"));
   
-  shapes.add(new GameObj(initial + 500, y(g_y_offset), false, saw_img, 50, 50, saw));
-
+  shapes.add(new GameObj(initial + 500, y(g_y_offset), true, saw_img, g_height, g_height, saw));
 }
 
 
