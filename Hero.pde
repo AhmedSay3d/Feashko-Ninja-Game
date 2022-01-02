@@ -13,13 +13,14 @@ class Hero extends GameObj
     int last_knife = 0 ;
     int num_coins = 0;
     boolean is_running = false ; 
-    int temp_x ; 
+    int temp_x ;
+    int verticalSpeed = 4;
 
     PImage[][] HeroImg ;
 
 
     public Hero(PImage[][] img ,int _sh , int _dr , int _jr, int _x , int _y){
-        super(_x , _y ,true , img[4][0] , -1 , -1 ) ; 
+        super(_x , _y ,true , img[4][0] , -1 , -1, "HERO" ) ; 
         this.jr = _jr ;
         this.dr = _dr ; 
         this.set_dir('R') ;
@@ -27,10 +28,24 @@ class Hero extends GameObj
         this.sh = _sh ;
     }
 
-    boolean is_touch_ground(List<GameObj> arr){
+    boolean is_touch_ground(List<GameObj> arr, List<GameObj> shapes){
         for(GameObj obj : arr ){
-            if(this.is_intersect(obj  ) == 1 )
-                return true ; 
+            if(obj.type == normalg && this.is_intersect(obj,10 ) == Intersect.NORTH){
+                //obj.highlight = true;
+                return true ;
+              }
+            else
+              obj.highlight = false;
+        }
+        //for(GameObj s: shapes)
+          //print(String.format("%s ", s.get_type()));
+        //println("");
+        for(GameObj obj : shapes){ 
+          if(this.is_intersect(obj, 8) == Intersect.NORTH){
+            //obj.highlight = true;
+            return true;
+          }
+          //else obj.highlight = false;
         }
         return false ; 
     }
@@ -55,24 +70,45 @@ class Hero extends GameObj
         this.change_photo(this.HeroImg[7][(this.currentFrame+1)%numFrames] ) ;
         this.set_jump_status(this.get_jump_status() - 1 ) ;
     }
-
+    
+    boolean collidesSideWays(int direction){
+      for(GameObj obj : shapes){
+          int intersectres = is_intersect(obj, 8);
+          if(intersectres == direction){
+            //obj.highlight = true;
+            return true;
+          }
+          //else obj.highlight = false;
+        }
+        return false;
+    }
     public void run_right( )
     {
-        this.move(10 , 0) ; 
         this.change_photo(this.HeroImg[8][(this.currentFrame+1)%numFrames] ) ;
         this.set_dir('R') ;
-        this.is_running = true ; 
+        if(collidesSideWays(Intersect.WEST) == false){
+          this.move(verticalSpeed , 0); 
+          this.is_running = true;
+        }else
+        stopRunning();
         
     }
     public void run_left()
     {
-        this.move(-10 , 0) ; 
-        this.change_photo(this.HeroImg[8][(this.currentFrame+1)%numFrames] ) ;
         this.set_dir('L') ;
-        this.is_running = true ; 
-
+        this.change_photo(this.HeroImg[8][(this.currentFrame+1)%numFrames] ) ;
+        if(collidesSideWays(Intersect.EAST) == false){
+        this.move(-verticalSpeed , 0) ; 
+        this.is_running = true;
+        }else
+          stopRunning();
     }
-
+    
+    void stopRunning(){
+      move(0, 0);
+      is_running=false;
+    }
+    
     public void drop_down()
     {
         this.move(0,this.dr) ;
@@ -83,9 +119,7 @@ class Hero extends GameObj
         if(this.get_hit_status() ==  0 ){
             this.set_hit_status(this.numFrames +1 ) ;
         }
-        this.change_photo(this.HeroImg[0][this.currentFrame]) ;  
-            
-        
+        this.change_photo(this.HeroImg[0][this.currentFrame]) ; 
     }
 
     public void throw_arrow()
@@ -157,7 +191,7 @@ class Hero extends GameObj
         }
 
         //check if is not touch the groudnd drop down 
-        boolean touch_ground = this.is_touch_ground(grounds) ; 
+        boolean touch_ground = this.is_touch_ground(grounds, shapes) ; 
 
         if(touch_ground && !this.is_running){
 

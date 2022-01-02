@@ -7,8 +7,8 @@ int half_screen = screen_width/2 ;
 int ground_height = 50;
 int change_backgrond_sec = 30 ; // in 
 int time_between_knife = 200 ; 
-int box_width=30,box_height=30;
-int floatg_width=50, floatg_height = 50;
+int box_width=50,box_height=50;
+int floatg_width=40, floatg_height = 40;
 int saw_motion = 0, saw_draw_back = 1;
 float img_ratio  = 7.26 ; 
 
@@ -21,7 +21,6 @@ int currentFrame = 0;
 int mario_jump_step = 25 ; // this step is * by 5 
 int time_between_fireball = 400 ; // this time is in millesec
 Mode activeMode;
-Tutorial tutorial;
 
 
 
@@ -33,10 +32,12 @@ final String fireb  = "fireb";
 final String knifeb = "knifeb";
 final String coinb  = "coinb";
 final String waterg  = "waterg";
+final String normalg = "normalg";
 final String spikeg  = "spikeg";
 final String movableg = "movableg";
 final String saw = "saw";
 final String hazard = "hazard";
+final String fixedBox = "fixedBox";
 
 // fire ball 
 List<FireBall> fireBalls =new ArrayList<FireBall>();  
@@ -104,8 +105,8 @@ void setup(){
     smooth();
     initi_photos() ; 
 
-    ninjaHero = new Hero(ninjaImages , screen_height , drop_rate , jump_rate , 0 , y(ground_height + 50 )) ; 
-
+    ninjaHero = new Hero(ninjaImages , screen_height , drop_rate , jump_rate , 0 , y(ground_height + 50 )-100) ; 
+    //ninjaHero.highlight=true;
     //(int _x , int _y , PImage[][] img , int _h , int _w , int _sh , int _step )
     // evils[0] = new Evil( 500 , y(ground_height + 60 ) ,zombieImages , -1 , -1 ,screen_height  , 1 ) ;
     // evils.add( new Evil( initial + 230 , y(ground_height + 60 ) ,zombieImages , -1 , -1 ,screen_height  , 1 )) ;
@@ -142,7 +143,7 @@ void setup(){
   scene_0(0);
   scene_1(screen_width);
   scene_2(screen_width*2);
-  scene_3(screen_width*3);
+  //scene_3(screen_width*3);
   //ground tiles 
     
 
@@ -166,10 +167,10 @@ void _translate()
 }
 
 void draw(){
-    frameRate(50);
+    frameRate(60);
     draw_background();
     _translate() ;
-    println(shapes.size());
+    //println(shapes.size());
     Iterator<GameObj> it = shapes.iterator();
     while(it.hasNext()){
         boolean f = true;
@@ -184,7 +185,6 @@ void draw(){
             it.remove();
     }
     
-    println(shapes.size());
     for(GameObj s: shapes){
         if(s.get_type() == saw){
             draw_saw(s.get_x(), s.get_y(), s.img, 4);
@@ -440,7 +440,7 @@ void initi_photos ()
 
 void move_hero()
 {
-    boolean touch_ground = ninjaHero.is_touch_ground(grounds) ; 
+    boolean touch_ground = ninjaHero.is_touch_ground(grounds, shapes) ; 
     int obj_intersection =  ninjaHero.is_intersect(shapes , true )  ; 
 
     // jump 

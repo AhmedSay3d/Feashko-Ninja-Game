@@ -31,7 +31,7 @@ class Evil extends GameObj
     }
     public Evil(int _x , int _y , PImage img , int _h , int _w , int _sh, int _step ){
       
-       this(_x , _y , img , _h , _w, _sh, null);
+       this(_x , _y , img , _h , _w, _sh, "evil");
        this.step = _step;
     }
     public Evil(int _x , int _y , PImage img , int _h , int _w , int _sh, String type)

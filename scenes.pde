@@ -5,21 +5,21 @@ void scene_0(int offset){
        if(i == 9 || i == 10 || i == 11)
          grounds.add(new GameObj(initial+(50*i), y(ground_height - 20), false, waterg_img,100,50, waterg));
        else
-         grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
+         grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50, normalg));
     }
-    shapes.add(new GameObj(initial + 200, y(ground_height + 30), false, fixed_box_img, box_height, box_width));
-    shapes.add(new GameObj(initial + 200, y(ground_height + 30 + 30), false, fixed_box_img, box_height, box_width)); 
-    shapes.add(new GameObj(initial + 370, y(ground_height + 30), false, fixed_box_img, box_height, box_width));
-    shapes.add(new GameObj(initial + 370, y(ground_height + 30 + 30), false, fixed_box_img, box_height, box_width));    
+    shapes.add(new GameObj(initial + 200, y(ground_height + box_height), false, fixed_box_img, box_height, box_width,fixedBox));
+    shapes.add(new GameObj(initial + 200, y(ground_height + box_height + box_height), false, fixed_box_img, box_height, box_width,fixedBox)); 
+    shapes.add(new GameObj(initial + 370, y(ground_height + box_height), false, fixed_box_img, box_height, box_width,fixedBox));
+    shapes.add(new GameObj(initial + 370, y(ground_height + box_height + box_height), false, fixed_box_img, box_height, box_width,fixedBox));    
    
-    evils.add( new Evil(initial + 230, y(ground_height +70), zombieImages, 85, 65, screen_height, 1, zombie) );
+    //evils.add( new Evil(initial + 230, y(ground_height +70), zombieImages, 85, 65, screen_height, 1, zombie) );
     
     
-    shapes.add(new GameObj(initial + 650, y(ground_height + 30), false, coin_img, box_height, box_width, coin));
-    shapes.add(new GameObj(initial + 650, y(ground_height + 30), false, coin_box_img, box_height, box_width, coinb));
-    shapes.add(new GameObj(initial + 680, y(ground_height + 30), false, fixed_box_img, box_height, box_width));
-    shapes.add(new GameObj(initial + 710, y(ground_height + 30), false, coin_img, box_height, box_width, coin));
-    shapes.add(new GameObj(initial + 710, y(ground_height + 30), false, coin_box_img, box_height, box_width, coinb));
+    shapes.add(new GameObj(initial + 650, y(ground_height + box_height), false, coin_img, box_height, box_width, coin));
+    shapes.add(new GameObj(initial + 650, y(ground_height + box_height), false, coin_box_img, box_height, box_width, coinb));
+    shapes.add(new GameObj(initial + 650+box_width, y(ground_height + box_height), false, coin_img, box_height, box_width, coin));
+    shapes.add(new GameObj(initial + 650+box_width, y(ground_height + box_height), false, fixed_box_img, box_height, box_width));
+    shapes.add(new GameObj(initial + 650+2*box_width, y(ground_height + box_height), false, coin_box_img, box_height, box_width, coinb));
     
     
     
@@ -28,7 +28,7 @@ void scene_0(int offset){
         if(i >= 3)
             d = 5 - i - 1;
         for(int j = 0; j <= d; ++j)
-          shapes.add(new GameObj(initial + 800 + (i * 30), y(ground_height + 30 + (j * 30)), false, fixed_box_img, box_height, box_width));    
+          shapes.add(new GameObj(initial + 850 + (i * box_height), y(ground_height + box_height + (j * box_height)), false, fixed_box_img, box_height, box_width));    
   }
 }
 
@@ -39,25 +39,25 @@ void scene_1(int offset){
          if(i == 15 || i == 16 || i == 17)
              grounds.add(new GameObj(initial+(50*i), y(ground_height - 20), false, spikeg_img,100,50, spikeg));
          else
-             grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
+             grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50, normalg));
    }
-  for(int i = 0; i < 3; ++i)
-      shapes.add(new GameObj(initial + 50 + (i * 45), y(ground_height + 40), false, coin_img, box_height, box_width, coin));
+  //for(int i = 0; i < 3; ++i)
+  //    shapes.add(new GameObj(initial + 50 + (i * 45), y(ground_height + 40), false, coin_img, box_height, box_width, coin));
   for(int i = 0; i < 3; ++i){
     if(i == 0)
-        grounds.add(new GameObj(initial+215+(50*i), y(ground_height + 150), false, cliffg_l_img,25,50));
+        grounds.add(new GameObj(initial+215+(50*i), y(ground_height + 150), false, cliffg_l_img,25,50, normalg));
     else if(i == 1)
-        grounds.add(new GameObj(initial+215+(50*i), y(ground_height + 150), false, normalg_img,25,50));
+        grounds.add(new GameObj(initial+215+(50*i), y(ground_height + 150), false, normalg_img,25,50, normalg));
     else
-        grounds.add(new GameObj(initial+215+(50*i), y(ground_height + 150), false, cliffg_r_img,25,50));
+        grounds.add(new GameObj(initial+215+(50*i), y(ground_height + 150), false, cliffg_r_img,25,50, normalg));
   }
   
-  for(int i = 0; i < 3; ++i)
-        shapes.add(new GameObj(initial+220+(50*i), y(ground_height + 150 + 40), false, coin_img, box_height, box_width, coin));
+  //for(int i = 0; i < 3; ++i)
+  //      shapes.add(new GameObj(initial+220+(50*i), y(ground_height + 150 + 40), false, coin_img, box_height, box_width, coin));
   
-    shapes.add(new GameObj(initial + 415, y(ground_height + 30), false, fixed_box_img, box_height, box_width));
-    shapes.add(new GameObj(initial + 600, y(ground_height + 30), false, fixed_box_img, box_height, box_width));
-    shapes.add(new GameObj(initial + 550, y(ground_height), false, saw_img, 50, 50, saw));
+    shapes.add(new GameObj(initial + 415, y(ground_height + box_height), false, fixed_box_img, box_height, box_width, fixedBox));
+    shapes.add(new GameObj(initial + 415+box_height, y(ground_height + box_height), false, fixed_box_img, box_height, box_width, fixedBox));
+    shapes.add(new GameObj(initial + 415+2*box_height, y(ground_height), false, saw_img, 50, 50, saw));
 }
 
 
@@ -66,14 +66,14 @@ void scene_2(int offset){
    int initial = 0+offset;  
    for(int i=0; i<20;i++){
          if(i==0){
-            grounds.add(new GameObj(initial+(50*i), y(ground_height), false, cliffg_l_img,100,50));
+            grounds.add(new GameObj(initial+(50*i), y(ground_height), false, cliffg_l_img,100,50, normalg));
            continue;  
        }
         if(i == 7 || i ==8 || i == 14 || i==15){
           grounds.add(new GameObj(initial+(50*i), y(ground_height-20), false, waterg_img,100,50, waterg));
           continue;
         }
-        grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50));
+        grounds.add(new GameObj(initial+(50*i), y(ground_height), false, normalg_img,100,50, normalg));
     }
     
    for(int i=2; i<5; i++){

@@ -8,6 +8,7 @@ class GameObj {
     protected String type;
     public boolean is_move , is_vis; 
     protected GameObj index  ;
+    boolean highlight = false;
     
     public GameObj(int _x , int _y , boolean _is_move , PImage img, int h , int w)
     {
@@ -111,7 +112,7 @@ class GameObj {
 
     int is_intersect(GameObj obj){
         if(obj != null)
-            return  Intersect.check(this , obj , false , 0) ;
+            return  Intersect.check(this , obj , true , 0) ;
         else 
             return -1 ; 
     }
@@ -171,7 +172,22 @@ class GameObj {
         {
             image(this.img , this.get_x() , this.get_y(), this.get_width() , this.get_height()) ; 
         }
+        if(highlight){
+          PVector[] p = objCorners(this);
+          for(int i=1; i<4; i++)
+            line(p[i].x, p[i].y, p[i-1].x, p[i-1].y);
+        }
     } 
+    
+    PVector[] objCorners(GameObj o){
+      // top left, top right, bottom right, bottom left.
+      PVector[] ret = new PVector[4];
+      ret[0] = new PVector(o.get_x(), o.get_y());
+      ret[1] = new PVector(o.get_x()+o.get_width(), o.get_y());
+      ret[2] = new PVector(o.get_x()+o.get_width(), o.get_y()+o.get_height());
+      ret[3] = new PVector(o.get_x(), o.get_y()+o.get_height());
+      return ret;
+    }
     
      public PImage get_image(){
        return this.img;
