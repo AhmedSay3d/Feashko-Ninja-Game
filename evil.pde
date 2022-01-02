@@ -3,7 +3,7 @@ class Evil extends GameObj
 
     int step = 3 ; 
     int sh ; 
-    int  currentFrame = 0 ;  
+    float  currentFrame = 0 ;  
     PImage[][] images ; 
     // int[] numFrames = {8,12,15,10} ;
     int[] numFrames  ;
@@ -21,7 +21,7 @@ class Evil extends GameObj
        this.step = _step ;
        this.numFrames = new int[4] ; 
        for(int i =0 ; i< img.length ; i++)
-           this.numFrames[i] = img[i].length ; 
+           this.numFrames[i] = img[i].length-1 ; 
     }
      public Evil(int _x , int _y , PImage img , int _h , int _w , int _sh, int _step, String type ){
       
@@ -51,21 +51,32 @@ class Evil extends GameObj
                 this.set_dir('L');
             if( temp == 4 )
                 this.set_dir('R') ;
-
+            if(this.attack_status == 0 )
+            {
                 if(this.get_dir()=='L')
                     move(-this.step,0) ;
                 else 
                     move(this.step ,0) ;
 
-                if(this.images[3][(this.currentFrame)] != null )
-                    this.change_photo(this.images[3][(this.currentFrame)]) ; 
-                this.currentFrame = (this.currentFrame+1)%this.numFrames[3] ; 
-
+                if(this.images[3][round(this.currentFrame)] != null )
+                    this.change_photo(this.images[3][round(this.currentFrame)]) ; 
+                this.currentFrame = (this.currentFrame+0.4)%this.numFrames[3] ; 
+            }
+            else 
+            {
+                print("attack ")  ;
+                println(this.currentFrame) ;
+                // println(this.numFrames[0]) ; 
+                // println (this.images[0][(this.currentFrame)]) ;
+                this.change_photo(this.images[0][round(this.currentFrame)]) ; 
+                this.currentFrame = (this.currentFrame+0.3)%this.numFrames[0] ; 
+                this.attack_status -- ;
+            }
           
         }
         else {
             if ( this.dr > 0){
-                this.change_photo(this.images[1][(this.currentFrame)]) ; 
+                this.change_photo(this.images[1][round(this.currentFrame)]) ; 
                 this.currentFrame = (this.currentFrame+1)%this.numFrames[1] ; 
                 this.dr -- ;
             }
@@ -80,11 +91,14 @@ class Evil extends GameObj
         this.currentFrame = 0 ;
     }
 
-    public void attack() 
-    {
-        this.attack_status = 8 ; 
-        this.is_attack = true ; 
-        this.dr = numFrames[0] ; 
-        this.currentFrame = 0 ;
+    public void attack() {
+        if (this.attack_status == 0 )
+        {
+            this.attack_status = 80 ; 
+            this.dr = numFrames[0] ; 
+            this.currentFrame = 0 ;
+            
+        }
+        
     }
 }
